@@ -93,11 +93,11 @@ export interface Registry {
   }
   'slide.show': {
     methods: ["GET","HEAD"]
-    pattern: '/slide'
+    pattern: '/slide/:id'
     types: {
       body: {}
-      paramsTuple: []
-      params: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>

@@ -20,6 +20,15 @@ export default class Slide extends BaseModel {
   @column()
   declare mediaName: string | null
 
+  @column()
+  declare order: number
+
+  @column()
+  declare duration: number
+
+  @column()
+  declare isActive: boolean
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

@@ -50,8 +50,8 @@ const routes = {
   },
   'slide.show': {
     methods: ["GET","HEAD"],
-    pattern: '/slide',
-    tokens: [{"old":"/slide","type":0,"val":"slide","end":""}],
+    pattern: '/slide/:id',
+    tokens: [{"old":"/slide/:id","type":0,"val":"slide","end":""},{"old":"/slide/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['slide.show']['types'],
   },
   'slide.update_slide': {

@@ -23,20 +23,26 @@ export class AppSettingSchema extends BaseModel {
 }
 
 export class SlideSchema extends BaseModel {
-  static $columns = ['content', 'createdAt', 'id', 'media', 'mediaName', 'mediaType', 'title', 'updatedAt'] as const
+  static $columns = ['content', 'createdAt', 'duration', 'id', 'isActive', 'media', 'mediaName', 'mediaType', 'order', 'title', 'updatedAt'] as const
   $columns = SlideSchema.$columns
   @column()
   declare content: string
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column()
+  declare duration: number
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare isActive: boolean
   @column()
   declare media: string | null
   @column()
   declare mediaName: string | null
   @column()
   declare mediaType: string | null
+  @column()
+  declare order: number
   @column()
   declare title: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })

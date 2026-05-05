@@ -1,15 +1,31 @@
 import string from '@adonisjs/core/helpers/string'
 import type { HttpContext } from '@adonisjs/core/http'
 import { updateSlideValidator } from '#validators/slide'
+import Slide from '#models/slide'
 
 export default class SlideController {
-  async show({ view, auth }: HttpContext) {
-    const user = auth.getUserOrFail()
-    return view.render('pages/slide/show', { user })
+  async show({ params, inertia }: HttpContext) {
+    const slide = await Slide.findOrFail(params.id)
+
+    const s = slide
+
+    return inertia.render('slide/show', {
+      slide: {
+        id: s.id,
+        title: s.title,
+        content: s.content,
+        media: s.media,
+        mediaType: s.mediaType,
+        order: s.order,
+        duration: s.duration,
+        isActive: s.isActive,
+        mediaUrl: s.media ? `/storage/${s.media}` : undefined,
+      },
+    })
   }
 
   async updateSlide({ request, auth, response, session }: HttpContext) {
-    const slide = auth.getUserOrFail()
+    const slide = await Slide.findOrFail(auth.getUserOrFail().id)
     const { media } = await request.validateUsing(updateSlideValidator)
 
     const mime = media.headers['content-type']
@@ -35,8 +51,8 @@ export default class SlideController {
     await media.moveToDisk(key)
 
     slide.media = key
-    slide.media_type = mime
-    slide.media_name = media.clientName
+    slide.mediaType = mime
+    slide.mediaName = media.clientName
     await slide.save()
 
     session.flash('success', 'Media updated successfully!')

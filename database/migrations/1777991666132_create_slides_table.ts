@@ -11,6 +11,9 @@ export default class extends BaseSchema {
       table.string('media').nullable()
       table.string('media_type').nullable()
       table.string('media_name').nullable()
+      table.integer('order').notNullable().defaultTo(0)
+      table.integer('duration').notNullable().defaultTo(30)
+      table.boolean('is_active').notNullable().defaultTo(true)
       table.timestamps(true, true)
     })
   }
