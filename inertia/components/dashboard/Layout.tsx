@@ -5,11 +5,12 @@ import MeteoSection from '~/components/dashboard/MeteoSection'
 
 import { Data } from '@generated/data'
 
-type Section = 'colors' | 'meteo'
+type Section = 'colors' | 'meteo' | 'slide'
 
 const NAV_ITEMS: { id: Section; label: string }[] = [
   { id: 'colors', label: 'Palette de couleurs' },
   { id: 'meteo', label: 'Localisation météo' },
+  { id: 'slide', label: 'Slides'}
 ]
 
 interface Location {

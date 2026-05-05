@@ -18,6 +18,10 @@ export interface ApiDefinition {
     store: typeof routes['session.store']
     destroy: typeof routes['session.destroy']
   }
+  slide: {
+    show: typeof routes['slide.show']
+    updateSlide: typeof routes['slide.update_slide']
+  }
   dashboard: typeof routes['dashboard'] & {
     update: typeof routes['dashboard.update']
     colors: typeof routes['dashboard.colors']

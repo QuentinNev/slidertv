@@ -91,6 +91,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['store']>>>
     }
   }
+  'slide.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/slide'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>
+    }
+  }
+  'slide.update_slide': {
+    methods: ["POST"]
+    pattern: '/slide'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'session.destroy': {
     methods: ["POST"]
     pattern: '/logout'
