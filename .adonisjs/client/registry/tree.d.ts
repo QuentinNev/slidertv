@@ -9,6 +9,10 @@ export interface ApiDefinition {
   }
   home: typeof routes['home']
   events: typeof routes['events']
+  slide: {
+    show: typeof routes['slide.show']
+    updateSlide: typeof routes['slide.update_slide']
+  }
   newAccount: {
     create: typeof routes['new_account.create']
     store: typeof routes['new_account.store']
@@ -17,10 +21,6 @@ export interface ApiDefinition {
     create: typeof routes['session.create']
     store: typeof routes['session.store']
     destroy: typeof routes['session.destroy']
-  }
-  slide: {
-    show: typeof routes['slide.show']
-    updateSlide: typeof routes['slide.update_slide']
   }
   dashboard: typeof routes['dashboard'] & {
     update: typeof routes['dashboard.update']

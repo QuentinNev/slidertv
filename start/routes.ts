@@ -14,6 +14,9 @@ import router from '@adonisjs/core/services/router'
 router.get('/', [controllers.Home, 'index']).as('home')
 router.get('/events', [controllers.Events, 'index']).as('events')
 
+router.get('slide/:id', [controllers.Slide, 'show'])
+router.post('slide', [controllers.Slide, 'updateSlide'])
+
 router
   .group(() => {
     router.get('signup', [controllers.NewAccount, 'create'])
@@ -21,9 +24,6 @@ router
 
     router.get('login', [controllers.Session, 'create'])
     router.post('login', [controllers.Session, 'store'])
-
-    router.get('slide/:id', [controllers.Slide, 'show'])
-    router.post('slide', [controllers.Slide, 'updateSlide'])
   })
   .use(middleware.guest())
 

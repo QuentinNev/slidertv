@@ -24,6 +24,18 @@ const routes = {
     tokens: [{"old":"/events","type":0,"val":"events","end":""}],
     types: placeholder as Registry['events']['types'],
   },
+  'slide.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/slide/:id',
+    tokens: [{"old":"/slide/:id","type":0,"val":"slide","end":""},{"old":"/slide/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['slide.show']['types'],
+  },
+  'slide.update_slide': {
+    methods: ["POST"],
+    pattern: '/slide',
+    tokens: [{"old":"/slide","type":0,"val":"slide","end":""}],
+    types: placeholder as Registry['slide.update_slide']['types'],
+  },
   'new_account.create': {
     methods: ["GET","HEAD"],
     pattern: '/signup',
@@ -47,18 +59,6 @@ const routes = {
     pattern: '/login',
     tokens: [{"old":"/login","type":0,"val":"login","end":""}],
     types: placeholder as Registry['session.store']['types'],
-  },
-  'slide.show': {
-    methods: ["GET","HEAD"],
-    pattern: '/slide/:id',
-    tokens: [{"old":"/slide/:id","type":0,"val":"slide","end":""},{"old":"/slide/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['slide.show']['types'],
-  },
-  'slide.update_slide': {
-    methods: ["POST"],
-    pattern: '/slide',
-    tokens: [{"old":"/slide","type":0,"val":"slide","end":""}],
-    types: placeholder as Registry['slide.update_slide']['types'],
   },
   'session.destroy': {
     methods: ["POST"],
