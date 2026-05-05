@@ -234,3 +234,188 @@ button:hover {
     transform: scale(1);
   }
 }
+
+/* ── TV Layout ─────────────────────────────────────────── */
+.tv-layout {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 1fr 64px;
+  grid-template-areas:
+    'left main'
+    'foot foot';
+  background: #0d0d14;
+  color: #fff;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+}
+
+.tv-left {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tv-main {
+  grid-area: main;
+}
+
+.tv-footer {
+  grid-area: foot;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Weather ───────────────────────────────────────────── */
+.tv-weather {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tv-weather-icon {
+  font-size: 64px;
+  line-height: 1;
+}
+
+.tv-weather-temp {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.tv-weather-desc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.tv-weather-loc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.tv-weather-details {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Date / Time ───────────────────────────────────────── */
+.tv-datetime {
+  padding: 18px 16px 20px;
+  text-align: center;
+}
+
+.tv-datetime-time {
+  font-size: 38px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.tv-datetime-date {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: capitalize;
+  margin-top: 6px;
+}
+
+/* ── Slider ────────────────────────────────────────────── */
+.tv-slider {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background 0.8s ease;
+}
+
+.tv-slider-title {
+  font-size: 72px;
+  font-weight: 700;
+  letter-spacing: -3px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tv-slider-dots {
+  position: absolute;
+  bottom: 24px;
+  display: flex;
+  gap: 10px;
+}
+
+.tv-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s;
+}
+
+.tv-dot.active {
+  background: #fff;
+}
+
+/* ── News Ticker ───────────────────────────────────────── */
+.tv-news-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #111118;
+  overflow: hidden;
+}
+
+.tv-news-label {
+  padding: 0 18px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fff;
+  background: #e53e3e;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tv-news-track {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.tv-news-text {
+  white-space: nowrap;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  animation: ticker 50s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
