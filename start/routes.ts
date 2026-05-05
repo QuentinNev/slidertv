@@ -12,6 +12,7 @@ import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
 
 router.get('/', [controllers.Home, 'index']).as('home')
+router.get('/events', [controllers.Events, 'index']).as('events')
 
 router
   .group(() => {

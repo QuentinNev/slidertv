@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { router } from '@inertiajs/react'
 import WeatherWidget, { type WeatherData } from '~/components/WeatherWidget'
 import DateTimeWidget from '~/components/DateTimeWidget'
 import Slider from '~/components/Slider'
@@ -25,6 +27,12 @@ export default function Home({
   news: NewsItem[]
   colors: Colors | null
 }) {
+  useEffect(() => {
+    const es = new EventSource('/events')
+    es.onmessage = () => router.reload({ only: ['colors', 'location', 'weather', 'news'] })
+    return () => es.close()
+  }, [])
+
   const style = {
     '--tv-bg': colors?.$attributes.backgroundColor ?? '#0d0d14',
     '--tv-accent': colors?.$attributes.accentColor ?? '#e53e3e',
