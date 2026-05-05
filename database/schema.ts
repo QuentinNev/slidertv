@@ -23,3 +23,20 @@ export class UserSchema extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
+
+export class WeatherLocationSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'latitude', 'longitude', 'name', 'updatedAt'] as const
+  $columns = WeatherLocationSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare latitude: number
+  @column()
+  declare longitude: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}

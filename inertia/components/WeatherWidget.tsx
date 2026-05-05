@@ -21,7 +21,13 @@ function decodeWeatherCode(code: number): { icon: string; label: string } {
   return { icon: '⛈️', label: 'Orage' }
 }
 
-export default function WeatherWidget({ weather }: { weather: WeatherData | null }) {
+export default function WeatherWidget({
+  weather,
+  locationName,
+}: {
+  weather: WeatherData | null
+  locationName: string | null
+}) {
   if (!weather) {
     return (
       <div className="tv-weather">
@@ -39,7 +45,7 @@ export default function WeatherWidget({ weather }: { weather: WeatherData | null
       <div className="tv-weather-temp">{Math.round(weather.temperature)}°C</div>
       <div className="tv-weather-desc">{label}</div>
       <div className="tv-weather-feels">Ressenti {Math.round(weather.apparentTemperature)}°C</div>
-      <div className="tv-weather-loc">Berne, Suisse</div>
+      {locationName && <div className="tv-weather-loc">{locationName}</div>}
       <div className="tv-weather-details">
         <span>💧 {weather.humidity}%</span>
         <span>💨 {Math.round(weather.windspeed)} km/h</span>

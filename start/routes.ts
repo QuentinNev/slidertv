@@ -26,5 +26,7 @@ router
 router
   .group(() => {
     router.post('logout', [controllers.Session, 'destroy'])
+    router.get('dashboard', [controllers.Dashboard, 'index']).as('dashboard')
+    router.post('dashboard', [controllers.Dashboard, 'update']).as('dashboard.update')
   })
   .use(middleware.auth())

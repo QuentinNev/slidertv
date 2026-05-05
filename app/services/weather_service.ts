@@ -1,10 +1,3 @@
-const API_URL =
-  'https://api.open-meteo.com/v1/forecast' +
-  '?latitude=46.948&longitude=7.447' +
-  '&current=temperature_2m,apparent_temperature,weathercode,windspeed_10m,relativehumidity_2m' +
-  '&timezone=Europe%2FZurich' +
-  '&wind_speed_unit=kmh'
-
 const TTL_MS = 10 * 60 * 1000
 
 export interface WeatherData {
@@ -22,21 +15,42 @@ interface CacheEntry {
 }
 
 class WeatherService {
-  #cache: CacheEntry | null = null
+  #cache = new Map<string, CacheEntry>()
 
-  async get(): Promise<WeatherData> {
-    if (this.#cache && Date.now() - this.#cache.timestamp < TTL_MS) {
-      return this.#cache.data
+  async get(latitude: number, longitude: number): Promise<WeatherData> {
+    const key = `${latitude},${longitude}`
+    const cached = this.#cache.get(key)
+    if (cached && Date.now() - cached.timestamp < TTL_MS) {
+      return cached.data
     }
-    const data = await this.#fetch()
-    this.#cache = { data, timestamp: Date.now() }
+    const data = await this.#fetch(latitude, longitude)
+    this.#cache.set(key, { data, timestamp: Date.now() })
     return data
   }
 
-  async #fetch(): Promise<WeatherData> {
-    const res = await fetch(API_URL)
+  invalidate(latitude: number, longitude: number) {
+    this.#cache.delete(`${latitude},${longitude}`)
+  }
+
+  async #fetch(latitude: number, longitude: number): Promise<WeatherData> {
+    const url =
+      `https://api.open-meteo.com/v1/forecast` +
+      `?latitude=${latitude}&longitude=${longitude}` +
+      `&current=temperature_2m,apparent_temperature,weathercode,windspeed_10m,relativehumidity_2m` +
+      `&timezone=Europe%2FZurich` +
+      `&wind_speed_unit=kmh`
+    const res = await fetch(url)
     if (!res.ok) throw new Error(`Open-Meteo responded with ${res.status}`)
-    const json = await res.json()
+    const json = (await res.json()) as {
+      current: {
+        temperature_2m: number
+        apparent_temperature: number
+        weathercode: number
+        windspeed_10m: number
+        relativehumidity_2m: number
+        time: string
+      }
+    }
     const c = json.current
     return {
       temperature: c.temperature_2m,
