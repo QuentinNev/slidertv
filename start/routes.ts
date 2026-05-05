@@ -21,6 +21,9 @@ router
 
     router.get('login', [controllers.Session, 'create'])
     router.post('login', [controllers.Session, 'store'])
+
+    route.get('slide', [controllers.Slide, 'show'])
+    route.post('slide', [controllers.Slide, 'updateSlide'])
   })
   .use(middleware.guest())
 
