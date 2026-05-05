@@ -59,6 +59,7 @@ export class WeatherLocationSchema extends BaseModel {
 export class SlideSchema extends BaseModel {
   static $columns = [
     'id',
+    'title',
     'content',
     'media',
     'mediaType',
@@ -71,6 +72,9 @@ export class SlideSchema extends BaseModel {
 
   @column({ isPrimary: true })
   declare id: number
+
+  @column()
+  declare title: string
 
   @column()
   declare content: string

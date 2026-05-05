@@ -6,6 +6,9 @@ export default class Slide extends BaseModel {
   declare id: number
 
   @column()
+  declare title: string
+
+  @column()
   declare content: string
 
   @column()
