@@ -3,6 +3,14 @@ import { useState, useEffect, useRef } from 'react'
 import ColorPicker from '~/components/ColorPicker'
 import { Data } from '@generated/data'
 
+type Section = 'colors' | 'location' | 'other'
+
+const NAV_ITEMS: { id: Section; label: string }[] = [
+  { id: 'colors', label: 'Palette de couleurs' },
+  { id: 'location', label: 'Localisation météo' },
+  { id: 'other', label: 'Autres' },
+]
+
 interface Location {
   id: number
   name: string
@@ -66,12 +74,14 @@ export default function Dashboard({
   const { props } = usePage<Data.SharedProps>()
   const user = props.user
   const logoutForm = useForm({})
+  const [section, setSection] = useState<Section>('colors')
+
   const data = location?.$attributes ?? location
   const form = useForm({
     name: location?.name ?? '',
     latitude: location?.latitude ?? '',
     longitude: location?.longitude ?? '',
-  });
+  })
 
   const colorForm = useForm({
     backgroundColor: colors?.$attributes.backgroundColor ?? '#0d0d14',
@@ -95,11 +105,7 @@ export default function Dashboard({
 
   function selectResult(result: GeoResult) {
     const label = [result.name, result.admin1, result.country].filter(Boolean).join(', ')
-    form.setData({
-      name: label,
-      latitude: result.latitude,
-      longitude: result.longitude,
-    })
+    form.setData({ name: label, latitude: result.latitude, longitude: result.longitude })
     setQuery(label)
     setOpen(false)
   }
@@ -131,119 +137,145 @@ export default function Dashboard({
         </div>
       </header>
 
-      <main className="db-main">
-        <section className="db-card">
-          <h2>Palette de couleur</h2>
-          <form onSubmit={submitColors} className="db-form">
-            <div className="db-colors-fields">
-              <div className="db-field">
-                <label className="db-color-label">Fond</label>
-                <ColorPicker
-                  value={colorForm.data.backgroundColor}
-                  onChange={(hex) => colorForm.setData('backgroundColor', hex)}
-                />
-                {colorForm.errors.backgroundColor && (
-                  <div className="db-error">{colorForm.errors.backgroundColor}</div>
-                )}
-              </div>
-              <div className="db-field">
-                <label className="db-color-label">Accent</label>
-                <ColorPicker
-                  value={colorForm.data.accentColor}
-                  onChange={(hex) => colorForm.setData('accentColor', hex)}
-                />
-                {colorForm.errors.accentColor && (
-                  <div className="db-error">{colorForm.errors.accentColor}</div>
-                )}
-              </div>
-            </div>
-            <button type="submit" disabled={colorForm.processing} className="db-submit">
-              {colorForm.processing ? 'Enregistrement…' : 'Enregistrer les couleurs'}
+      <div className="db-body">
+        <nav className="db-sidebar">
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`db-nav-item${section === item.id ? ' active' : ''}`}
+              onClick={() => setSection(item.id)}
+            >
+              {item.label}
             </button>
-          </form>
-        </section>
+          ))}
+        </nav>
 
-        <section className="db-card">
-          <h2>Localisation météo</h2>
-          {location ? (
-            <p className="db-current">
-              Actuellement : <strong>{data.name}</strong>
-              <span className="db-coords">{data.latitude.toFixed(4)}, {data.longitude.toFixed(4)}</span>
-            </p>
-          ) : (
-            <p className="db-empty">Aucune localisation configurée.</p>
+        <main className="db-content">
+          {section === 'colors' && (
+            <section className="db-card">
+              <h2>Palette de couleurs</h2>
+              <form onSubmit={submitColors} className="db-form">
+                <div className="db-colors-fields">
+                  <div className="db-field">
+                    <label className="db-color-label">Fond</label>
+                    <ColorPicker
+                      value={colorForm.data.backgroundColor}
+                      onChange={(hex) => colorForm.setData('backgroundColor', hex)}
+                    />
+                    {colorForm.errors.backgroundColor && (
+                      <div className="db-error">{colorForm.errors.backgroundColor}</div>
+                    )}
+                  </div>
+                  <div className="db-field">
+                    <label className="db-color-label">Accent</label>
+                    <ColorPicker
+                      value={colorForm.data.accentColor}
+                      onChange={(hex) => colorForm.setData('accentColor', hex)}
+                    />
+                    {colorForm.errors.accentColor && (
+                      <div className="db-error">{colorForm.errors.accentColor}</div>
+                    )}
+                  </div>
+                </div>
+                <button type="submit" disabled={colorForm.processing} className="db-submit">
+                  {colorForm.processing ? 'Enregistrement…' : 'Enregistrer les couleurs'}
+                </button>
+              </form>
+            </section>
           )}
 
-          <form onSubmit={submit} className="db-form">
-            <div className="db-field" ref={searchRef}>
-              <label htmlFor="search">Rechercher une ville</label>
-              <input
-                id="search"
-                type="text"
-                placeholder="Ex: Genève, Zurich, Lausanne…"
-                value={query}
-                onChange={(e) => { setQuery(e.target.value); setOpen(true) }}
-                onFocus={() => setOpen(true)}
-                autoComplete="off"
-              />
-              {open && (results.length > 0 || loading) && (
-                <ul className="db-suggestions">
-                  {loading && <li className="db-suggestion-loading">Recherche…</li>}
-                  {results.map((r) => (
-                    <li key={r.id} className="db-suggestion" onMouseDown={() => selectResult(r)}>
-                      <span className="db-suggestion-name">{r.name}</span>
-                      <span className="db-suggestion-meta">{[r.admin1, r.country].filter(Boolean).join(', ')}</span>
-                    </li>
-                  ))}
-                </ul>
+          {section === 'location' && (
+            <section className="db-card">
+              <h2>Localisation météo</h2>
+              {location ? (
+                <p className="db-current">
+                  Actuellement : <strong>{data.name}</strong>
+                  <span className="db-coords">{data.latitude.toFixed(4)}, {data.longitude.toFixed(4)}</span>
+                </p>
+              ) : (
+                <p className="db-empty">Aucune localisation configurée.</p>
               )}
-            </div>
 
-            <div className="db-coords-fields">
-              <div className="db-field">
-                <label htmlFor="latitude">Latitude</label>
-                <input
-                  id="latitude"
-                  type="number"
-                  step="any"
-                  value={form.data.latitude}
-                  onChange={(e) => form.setData('latitude', e.target.value)}
-                  data-invalid={form.errors.latitude ? 'true' : undefined}
-                />
-                {form.errors.latitude && <div>{form.errors.latitude}</div>}
-              </div>
-              <div className="db-field">
-                <label htmlFor="longitude">Longitude</label>
-                <input
-                  id="longitude"
-                  type="number"
-                  step="any"
-                  value={form.data.longitude}
-                  onChange={(e) => form.setData('longitude', e.target.value)}
-                  data-invalid={form.errors.longitude ? 'true' : undefined}
-                />
-                {form.errors.longitude && <div>{form.errors.longitude}</div>}
-              </div>
-            </div>
+              <form onSubmit={submit} className="db-form">
+                <div className="db-field" ref={searchRef}>
+                  <label htmlFor="search">Rechercher une ville</label>
+                  <input
+                    id="search"
+                    type="text"
+                    placeholder="Ex: Genève, Zurich, Lausanne…"
+                    value={query}
+                    onChange={(e) => { setQuery(e.target.value); setOpen(true) }}
+                    onFocus={() => setOpen(true)}
+                    autoComplete="off"
+                  />
+                  {open && (results.length > 0 || loading) && (
+                    <ul className="db-suggestions">
+                      {loading && <li className="db-suggestion-loading">Recherche…</li>}
+                      {results.map((r) => (
+                        <li key={r.id} className="db-suggestion" onMouseDown={() => selectResult(r)}>
+                          <span className="db-suggestion-name">{r.name}</span>
+                          <span className="db-suggestion-meta">{[r.admin1, r.country].filter(Boolean).join(', ')}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
-            <div className="db-field">
-              <label htmlFor="name">Nom affiché</label>
-              <input
-                id="name"
-                type="text"
-                value={form.data.name}
-                onChange={(e) => form.setData('name', e.target.value)}
-                data-invalid={form.errors.name ? 'true' : undefined}
-              />
-              {form.errors.name && <div>{form.errors.name}</div>}
-            </div>
+                <div className="db-coords-fields">
+                  <div className="db-field">
+                    <label htmlFor="latitude">Latitude</label>
+                    <input
+                      id="latitude"
+                      type="number"
+                      step="any"
+                      value={form.data.latitude}
+                      onChange={(e) => form.setData('latitude', e.target.value)}
+                      data-invalid={form.errors.latitude ? 'true' : undefined}
+                    />
+                    {form.errors.latitude && <div>{form.errors.latitude}</div>}
+                  </div>
+                  <div className="db-field">
+                    <label htmlFor="longitude">Longitude</label>
+                    <input
+                      id="longitude"
+                      type="number"
+                      step="any"
+                      value={form.data.longitude}
+                      onChange={(e) => form.setData('longitude', e.target.value)}
+                      data-invalid={form.errors.longitude ? 'true' : undefined}
+                    />
+                    {form.errors.longitude && <div>{form.errors.longitude}</div>}
+                  </div>
+                </div>
 
-            <button type="submit" disabled={form.processing} className="db-submit">
-              {form.processing ? 'Enregistrement…' : 'Enregistrer'}
-            </button>
-          </form>
-        </section>
-      </main>
+                <div className="db-field">
+                  <label htmlFor="name">Nom affiché</label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={form.data.name}
+                    onChange={(e) => form.setData('name', e.target.value)}
+                    data-invalid={form.errors.name ? 'true' : undefined}
+                  />
+                  {form.errors.name && <div>{form.errors.name}</div>}
+                </div>
+
+                <button type="submit" disabled={form.processing} className="db-submit">
+                  {form.processing ? 'Enregistrement…' : 'Enregistrer'}
+                </button>
+              </form>
+            </section>
+          )}
+
+          {section === 'other' && (
+            <section className="db-card">
+              <h2>Autres</h2>
+              <p className="db-empty">Rien ici pour le moment.</p>
+            </section>
+          )}
+        </main>
+      </div>
     </div>
   )
 }

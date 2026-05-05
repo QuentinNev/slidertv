@@ -47,7 +47,6 @@ h6 {
 
 /* Header */
 header {
-  max-width: 1440px;
   margin: auto;
   padding: 0 30px;
 }
@@ -238,6 +237,8 @@ button:hover {
 /* ── Dashboard ─────────────────────────────────────────── */
 .db-layout {
   min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
   background: var(--gray-2);
   color: var(--gray-12);
 }
@@ -249,6 +250,7 @@ button:hover {
   padding: 20px 40px;
   background: #fff;
   border-bottom: 1px solid var(--gray-3);
+  width:100%
 }
 
 .db-header h1 {
@@ -298,13 +300,48 @@ button:hover {
   color: var(--gray-12);
 }
 
-.db-main {
-  max-width: 640px;
-  margin: 40px auto;
-  padding: 20px;
+.db-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+}
+
+.db-sidebar {
+  background: #fff;
+  border-right: 1px solid var(--gray-3);
+  padding: 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+}
+
+.db-nav-item {
+  all: unset;
+  display: block;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-7);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
+}
+
+.db-nav-item:hover {
+  color: var(--gray-12);
+  background: var(--gray-1);
+}
+
+.db-nav-item.active {
+  color: var(--gray-12);
+  border-left-color: var(--gray-12);
+  background: var(--gray-2);
+}
+
+.db-content {
+  padding: 40px;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top:20px;
 }
 
 .db-card {
