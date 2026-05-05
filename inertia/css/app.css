@@ -418,97 +418,65 @@ button:hover {
   overflow: hidden;
 }
 
-.tv-weather-now {
+.tv-weather-day {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 16px 16px;
-  gap: 5px;
+  padding: 12px 16px;
+  gap: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.tv-weather-icon {
-  font-size: 52px;
-  line-height: 1;
+.tv-weather-day:last-child {
+  border-bottom: none;
 }
 
-.tv-weather-temp {
-  font-size: 48px;
+.tv-day-label {
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: -2px;
-  line-height: 1;
-}
-
-.tv-weather-desc {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.tv-weather-feels {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.tv-weather-loc {
-  font-size: 12px;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
   color: rgba(255, 255, 255, 0.35);
 }
 
-.tv-weather-details {
+.tv-day-icon {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.tv-day-temp {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1;
   display: flex;
-  gap: 12px;
-  margin-top: 4px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  align-items: baseline;
+  gap: 6px;
 }
 
-.tv-weather-forecast {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
+.tv-day-temp-min {
+  font-size: 22px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.3);
 }
 
-.tv-forecast-day {
-  display: flex;
-  align-items: center;
-  padding: 10px 18px;
-  gap: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.tv-forecast-day:first-child {
-  border-top: none;
-}
-
-.tv-forecast-label {
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: capitalize;
-  color: rgba(255, 255, 255, 0.5);
-  width: 32px;
-  flex-shrink: 0;
-}
-
-.tv-forecast-icon {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.tv-forecast-temps {
-  margin-left: auto;
-  display: flex;
-  gap: 8px;
+.tv-day-desc {
   font-size: 13px;
-  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.tv-forecast-max {
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+.tv-day-loc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
 }
 
-.tv-forecast-min {
+.tv-day-details {
+  display: flex;
+  gap: 10px;
+  margin-top: 2px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.35);
 }
 

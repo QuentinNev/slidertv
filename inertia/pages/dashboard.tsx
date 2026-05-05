@@ -50,6 +50,7 @@ function useGeoSearch(query: string) {
 }
 
 export default function Dashboard({ location }: { location: Location | null }) {
+  const data = location.$attributes;
   const form = useForm({
     name: location?.name ?? '',
     latitude: location?.latitude ?? '',
@@ -99,8 +100,8 @@ export default function Dashboard({ location }: { location: Location | null }) {
           <h2>Localisation météo</h2>
           {location ? (
             <p className="db-current">
-              Actuellement : <strong>{location.name}</strong>
-              <span className="db-coords">{location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}</span>
+              Actuellement : <strong>{data.name}</strong>
+              <span className="db-coords">{data.latitude.toFixed(4)}, {data.longitude.toFixed(4)}</span>
             </p>
           ) : (
             <p className="db-empty">Aucune localisation configurée.</p>

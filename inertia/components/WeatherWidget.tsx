@@ -43,8 +43,10 @@ export default function WeatherWidget({
   if (!weather) {
     return (
       <div className="tv-weather">
-        <div className="tv-weather-icon">⚠️</div>
-        <div className="tv-weather-desc">Météo indisponible</div>
+        <div className="tv-weather-day">
+          <div className="tv-day-icon">⚠️</div>
+          <div className="tv-day-desc">Météo indisponible</div>
+        </div>
       </div>
     )
   }
@@ -53,33 +55,32 @@ export default function WeatherWidget({
 
   return (
     <div className="tv-weather">
-      <div className="tv-weather-now">
-        <div className="tv-weather-icon">{current.icon}</div>
-        <div className="tv-weather-temp">{Math.round(weather.temperature)}°C</div>
-        <div className="tv-weather-desc">{current.label}</div>
-        <div className="tv-weather-feels">Ressenti {Math.round(weather.apparentTemperature)}°C</div>
-        {locationName && <div className="tv-weather-loc">{locationName}</div>}
-        <div className="tv-weather-details">
+      <div className="tv-weather-day">
+        <span className="tv-day-label">Auj.</span>
+        <div className="tv-day-icon">{current.icon}</div>
+        <div className="tv-day-temp">{Math.round(weather.temperature)}°C</div>
+        <div className="tv-day-desc">{current.label}</div>
+        {locationName && <div className="tv-day-loc">{locationName}</div>}
+        <div className="tv-day-details">
           <span>💧 {weather.humidity}%</span>
           <span>💨 {Math.round(weather.windspeed)} km/h</span>
         </div>
       </div>
 
-      <div className="tv-weather-forecast">
-        {weather.forecast.map((day) => {
-          const f = decodeWeather(day.weathercode)
-          return (
-            <div key={day.date} className="tv-forecast-day">
-              <span className="tv-forecast-label">{dayLabel(day.date)}</span>
-              <span className="tv-forecast-icon">{f.icon}</span>
-              <span className="tv-forecast-temps">
-                <span className="tv-forecast-max">{Math.round(day.tempMax)}°</span>
-                <span className="tv-forecast-min">{Math.round(day.tempMin)}°</span>
-              </span>
+      {weather.forecast.map((day) => {
+        const f = decodeWeather(day.weathercode)
+        return (
+          <div key={day.date} className="tv-weather-day">
+            <span className="tv-day-label">{dayLabel(day.date)}</span>
+            <div className="tv-day-icon">{f.icon}</div>
+            <div className="tv-day-temp">
+              {Math.round(day.tempMax)}°
+              <span className="tv-day-temp-min">{Math.round(day.tempMin)}°</span>
             </div>
-          )
-        })}
-      </div>
+            <div className="tv-day-desc">{f.label}</div>
+          </div>
+        )
+      })}
     </div>
   )
 }

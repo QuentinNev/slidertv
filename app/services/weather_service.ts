@@ -80,7 +80,7 @@ class WeatherService {
       windspeed: c.windspeed_10m,
       humidity: c.relativehumidity_2m,
       fetchedAt: c.time,
-      forecast: [0,1, 2].map((i) => ({
+      forecast: [1, 2].map((i) => ({
         date: d.time[i],
         weathercode: d.weathercode[i],
         tempMax: d.temperature_2m_max[i],
