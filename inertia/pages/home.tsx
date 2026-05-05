@@ -1,13 +1,13 @@
-import WeatherWidget from '~/components/WeatherWidget'
+import WeatherWidget, { type WeatherData } from '~/components/WeatherWidget'
 import DateTimeWidget from '~/components/DateTimeWidget'
 import Slider from '~/components/Slider'
 import NewsTicker from '~/components/NewsTicker'
 
-export default function Home() {
+export default function Home({ weather }: { weather: WeatherData | null }) {
   return (
     <div className="tv-layout">
       <aside className="tv-left">
-        <WeatherWidget />
+        <WeatherWidget weather={weather} />
         <DateTimeWidget />
       </aside>
       <section className="tv-main">

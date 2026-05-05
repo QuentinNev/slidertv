@@ -1,18 +1,10 @@
-import { useState, useEffect } from 'react'
-
-const API_URL =
-  'https://api.open-meteo.com/v1/forecast' +
-  '?latitude=46.948&longitude=7.447' +
-  '&current=temperature_2m,apparent_temperature,weathercode,windspeed_10m,relativehumidity_2m' +
-  '&timezone=Europe%2FZurich' +
-  '&wind_speed_unit=kmh'
-
-interface WeatherData {
-  temperature_2m: number
-  apparent_temperature: number
+export interface WeatherData {
+  temperature: number
+  apparentTemperature: number
   weathercode: number
-  windspeed_10m: number
-  relativehumidity_2m: number
+  windspeed: number
+  humidity: number
+  fetchedAt: string
 }
 
 function decodeWeatherCode(code: number): { icon: string; label: string } {
@@ -29,27 +21,8 @@ function decodeWeatherCode(code: number): { icon: string; label: string } {
   return { icon: '⛈️', label: 'Orage' }
 }
 
-export default function WeatherWidget() {
-  const [data, setData] = useState<WeatherData | null>(null)
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    async function fetchWeather() {
-      try {
-        const res = await fetch(API_URL)
-        if (!res.ok) throw new Error()
-        const json = await res.json()
-        setData(json.current)
-      } catch {
-        setError(true)
-      }
-    }
-    fetchWeather()
-    const t = setInterval(fetchWeather, 10 * 60 * 1000)
-    return () => clearInterval(t)
-  }, [])
-
-  if (error) {
+export default function WeatherWidget({ weather }: { weather: WeatherData | null }) {
+  if (!weather) {
     return (
       <div className="tv-weather">
         <div className="tv-weather-icon">⚠️</div>
@@ -58,27 +31,18 @@ export default function WeatherWidget() {
     )
   }
 
-  if (!data) {
-    return (
-      <div className="tv-weather">
-        <div className="tv-weather-icon">⏳</div>
-        <div className="tv-weather-desc">Chargement…</div>
-      </div>
-    )
-  }
-
-  const { icon, label } = decodeWeatherCode(data.weathercode)
+  const { icon, label } = decodeWeatherCode(weather.weathercode)
 
   return (
     <div className="tv-weather">
       <div className="tv-weather-icon">{icon}</div>
-      <div className="tv-weather-temp">{Math.round(data.temperature_2m)}°C</div>
+      <div className="tv-weather-temp">{Math.round(weather.temperature)}°C</div>
       <div className="tv-weather-desc">{label}</div>
-      <div className="tv-weather-feels">Ressenti {Math.round(data.apparent_temperature)}°C</div>
+      <div className="tv-weather-feels">Ressenti {Math.round(weather.apparentTemperature)}°C</div>
       <div className="tv-weather-loc">Berne, Suisse</div>
       <div className="tv-weather-details">
-        <span>💧 {data.relativehumidity_2m}%</span>
-        <span>💨 {Math.round(data.windspeed_10m)} km/h</span>
+        <span>💧 {weather.humidity}%</span>
+        <span>💨 {Math.round(weather.windspeed)} km/h</span>
       </div>
     </div>
   )
