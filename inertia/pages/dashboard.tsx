@@ -74,8 +74,8 @@ export default function Dashboard({
   });
 
   const colorForm = useForm({
-    backgroundColor: colors?.backgroundColor ?? '#0d0d14',
-    accentColor: colors?.accentColor ?? '#e53e3e',
+    backgroundColor: colors?.$attributes.backgroundColor ?? '#0d0d14',
+    accentColor: colors?.$attributes.accentColor ?? '#e53e3e',
   })
 
   const [query, setQuery] = useState('')
