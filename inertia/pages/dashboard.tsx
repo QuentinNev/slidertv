@@ -1,5 +1,6 @@
 import { useForm } from '@inertiajs/react'
 import { useState, useEffect, useRef } from 'react'
+import ColorPicker from '~/components/ColorPicker'
 
 interface Location {
   id: number
@@ -98,6 +99,7 @@ export default function Dashboard({ location }: { location: Location | null }) {
       <main className="db-main">
         <section className="db-card">
           <h2>Palette de couleur</h2>
+          <ColorPicker/>
         </section>
         <section className="db-card">
           <h2>Localisation météo</h2>
