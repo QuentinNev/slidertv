@@ -1,5 +1,12 @@
 const TTL_MS = 10 * 60 * 1000
 
+export interface DayForecast {
+  date: string
+  weathercode: number
+  tempMax: number
+  tempMin: number
+}
+
 export interface WeatherData {
   temperature: number
   apparentTemperature: number
@@ -7,6 +14,7 @@ export interface WeatherData {
   windspeed: number
   humidity: number
   fetchedAt: string
+  forecast: DayForecast[]
 }
 
 interface CacheEntry {
@@ -37,10 +45,14 @@ class WeatherService {
       `https://api.open-meteo.com/v1/forecast` +
       `?latitude=${latitude}&longitude=${longitude}` +
       `&current=temperature_2m,apparent_temperature,weathercode,windspeed_10m,relativehumidity_2m` +
+      `&daily=temperature_2m_max,temperature_2m_min,weathercode` +
+      `&forecast_days=3` +
       `&timezone=Europe%2FZurich` +
       `&wind_speed_unit=kmh`
+
     const res = await fetch(url)
     if (!res.ok) throw new Error(`Open-Meteo responded with ${res.status}`)
+
     const json = (await res.json()) as {
       current: {
         temperature_2m: number
@@ -50,8 +62,17 @@ class WeatherService {
         relativehumidity_2m: number
         time: string
       }
+      daily: {
+        time: string[]
+        temperature_2m_max: number[]
+        temperature_2m_min: number[]
+        weathercode: number[]
+      }
     }
+
     const c = json.current
+    const d = json.daily
+
     return {
       temperature: c.temperature_2m,
       apparentTemperature: c.apparent_temperature,
@@ -59,6 +80,12 @@ class WeatherService {
       windspeed: c.windspeed_10m,
       humidity: c.relativehumidity_2m,
       fetchedAt: c.time,
+      forecast: [0,1, 2].map((i) => ({
+        date: d.time[i],
+        weathercode: d.weathercode[i],
+        tempMax: d.temperature_2m_max[i],
+        tempMin: d.temperature_2m_min[i],
+      })),
     }
   }
 }
