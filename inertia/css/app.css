@@ -256,6 +256,12 @@ button:hover {
   font-weight: 600;
 }
 
+.db-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .db-link {
   font-size: 14px;
   color: var(--gray-7);
@@ -265,10 +271,40 @@ button:hover {
   color: var(--gray-12);
 }
 
+.db-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.db-user-name {
+  font-size: 14px;
+  color: var(--gray-7);
+}
+
+.db-logout {
+  width: auto;
+  padding: 6px 14px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--gray-7);
+  border: 1px solid var(--gray-4);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.db-logout:hover {
+  background: var(--gray-2);
+  color: var(--gray-12);
+}
+
 .db-main {
   max-width: 640px;
   margin: 40px auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .db-card {

@@ -1,6 +1,7 @@
-import { useForm } from '@inertiajs/react'
+import { useForm, usePage } from '@inertiajs/react'
 import { useState, useEffect, useRef } from 'react'
 import ColorPicker from '~/components/ColorPicker'
+import { Data } from '@generated/data'
 
 interface Location {
   id: number
@@ -62,6 +63,9 @@ export default function Dashboard({
   location: Location | null
   colors: Colors | null
 }) {
+  const { props } = usePage<Data.SharedProps>()
+  const user = props.user
+  const logoutForm = useForm({})
   const data = location?.$attributes ?? location
   const form = useForm({
     name: location?.name ?? '',
@@ -70,8 +74,8 @@ export default function Dashboard({
   });
 
   const colorForm = useForm({
-    backgroundColor: colors?.$attributes.backgroundColor ?? '#0d0d14',
-    accentColor: colors?.$attributes.accentColor ?? '#e53e3e',
+    backgroundColor: colors?.backgroundColor ?? '#0d0d14',
+    accentColor: colors?.accentColor ?? '#e53e3e',
   })
 
   const [query, setQuery] = useState('')
@@ -114,7 +118,17 @@ export default function Dashboard({
     <div className="db-layout">
       <header className="db-header">
         <h1>Dashboard</h1>
-        <a href="/" className="db-link">← Retour à l'écran TV</a>
+        <div className="db-header-right">
+          <a href="/" className="db-link">← Retour à l'écran TV</a>
+          {user && (
+            <div className="db-user">
+              <span className="db-user-name">{user.fullName ?? user.email}</span>
+              <form onSubmit={(e) => { e.preventDefault(); logoutForm.post('/logout') }}>
+                <button type="submit" className="db-logout">Déconnexion</button>
+              </form>
+            </div>
+          )}
+        </div>
       </header>
 
       <main className="db-main">
