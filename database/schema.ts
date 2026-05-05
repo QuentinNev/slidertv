@@ -55,3 +55,38 @@ export class WeatherLocationSchema extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
+
+export class SlideSchema extends BaseModel {
+  static $columns = [
+    'id',
+    'content',
+    'media',
+    'mediaType',
+    'mediaName',
+    'createdAt',
+    'updatedAt',
+  ] as const
+
+  $columns = SlideSchema.$columns
+
+  @column({ isPrimary: true })
+  declare id: number
+
+  @column()
+  declare content: string
+
+  @column()
+  declare media: string | null
+
+  @column()
+  declare mediaType: string | null
+
+  @column()
+  declare mediaName: string | null
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
