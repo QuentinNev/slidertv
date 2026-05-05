@@ -250,7 +250,7 @@ button:hover {
   padding: 20px 40px;
   background: #fff;
   border-bottom: 1px solid var(--gray-3);
-  width:100%
+  width: 100%;
 }
 
 .db-header h1 {
@@ -322,7 +322,10 @@ button:hover {
   color: var(--gray-7);
   cursor: pointer;
   border-left: 2px solid transparent;
-  transition: color 0.1s, border-color 0.1s, background 0.1s;
+  transition:
+    color 0.1s,
+    border-color 0.1s,
+    background 0.1s;
 }
 
 .db-nav-item:hover {
@@ -341,7 +344,7 @@ button:hover {
   max-width: 680px;
   width: 100%;
   margin: 0 auto;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .db-card {
@@ -468,6 +471,12 @@ button:hover {
   align-self: flex-start;
   width: auto;
   padding: 10px 24px;
+}
+
+.db-preview img,
+.db-preview video {
+  max-width: 300px;
+  max-height: 300px;
 }
 
 /* ── Color Picker Field ─────────────────────────────────── */
