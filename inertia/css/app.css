@@ -296,6 +296,11 @@ button:hover {
   color: rgba(255, 255, 255, 0.55);
 }
 
+.tv-weather-feels {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
 .tv-weather-loc {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.35);
