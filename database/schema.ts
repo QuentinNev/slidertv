@@ -7,6 +7,21 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AppSettingSchema extends BaseModel {
+  static $columns = ['accentColor', 'backgroundColor', 'createdAt', 'id', 'updatedAt'] as const
+  $columns = AppSettingSchema.$columns
+  @column()
+  declare accentColor: string | null
+  @column()
+  declare backgroundColor: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns

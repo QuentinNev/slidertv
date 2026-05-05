@@ -371,6 +371,26 @@ button:hover {
   color: var(--gray-6);
 }
 
+.db-colors-fields {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.db-color-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-7);
+  margin-bottom: 6px;
+}
+
+.db-error {
+  font-size: 12px;
+  color: #fb2c36;
+  margin-top: 4px;
+}
+
 .db-submit {
   align-self: flex-start;
   width: auto;
@@ -449,7 +469,7 @@ button:hover {
   grid-template-areas:
     'left main'
     'foot foot';
-  background: #0d0d14;
+  background: var(--tv-bg, #0d0d14);
   color: #fff;
   overflow: hidden;
   font-family: system-ui, sans-serif;
@@ -620,7 +640,7 @@ button:hover {
   font-weight: 800;
   letter-spacing: 2px;
   color: #fff;
-  background: #e53e3e;
+  background: var(--tv-accent, #e53e3e);
   height: 100%;
   display: flex;
   align-items: center;

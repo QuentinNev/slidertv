@@ -2,6 +2,7 @@ import vine from '@vinejs/vine'
 import type { HttpContext } from '@adonisjs/core/http'
 import weatherService from '#services/weather_service'
 import WeatherLocation from '#models/weather_location'
+import AppSetting from '#models/app_setting'
 
 const locationValidator = vine.compile(
   vine.object({
@@ -11,10 +12,20 @@ const locationValidator = vine.compile(
   })
 )
 
+const hexColor = vine.string().regex(/^#[0-9a-fA-F]{6}$/)
+
+const colorsValidator = vine.compile(
+  vine.object({
+    backgroundColor: hexColor,
+    accentColor: hexColor,
+  })
+)
+
 export default class DashboardController {
   async index({ inertia }: HttpContext) {
-    const location = await WeatherLocation.first()
-    return inertia.render('dashboard', { location: location ?? null })
+    const [location, colors] = await Promise.all([WeatherLocation.first(), AppSetting.first()])
+    console.log("app settings", colors)
+    return inertia.render('dashboard', { location: location ?? null, colors: colors ?? null })
   }
 
   async update({ request, response, session }: HttpContext) {
@@ -29,6 +40,19 @@ export default class DashboardController {
     }
 
     session.flash('success', `Localisation mise à jour : ${name}`)
+    return response.redirect().toRoute('dashboard')
+  }
+
+  async updateColors({ request, response, session }: HttpContext) {
+    const { backgroundColor, accentColor } = await request.validateUsing(colorsValidator)
+    const existing = await AppSetting.first()
+    if (existing) {
+      await existing.merge({ backgroundColor, accentColor }).save()
+    } else {
+      await AppSetting.create({ backgroundColor, accentColor })
+    }
+
+    session.flash('success', 'Couleurs mises à jour')
     return response.redirect().toRoute('dashboard')
   }
 }

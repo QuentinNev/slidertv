@@ -14,5 +14,6 @@ export interface ApiDefinition {
   }
   dashboard: typeof routes['dashboard'] & {
     update: typeof routes['dashboard.update']
+    colors: typeof routes['dashboard.colors']
   }
 }

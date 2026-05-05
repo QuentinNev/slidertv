@@ -54,6 +54,12 @@ const routes = {
     tokens: [{"old":"/dashboard","type":0,"val":"dashboard","end":""}],
     types: placeholder as Registry['dashboard.update']['types'],
   },
+  'dashboard.colors': {
+    methods: ["POST"],
+    pattern: '/dashboard/colors',
+    tokens: [{"old":"/dashboard/colors","type":0,"val":"dashboard","end":""},{"old":"/dashboard/colors","type":0,"val":"colors","end":""}],
+    types: placeholder as Registry['dashboard.colors']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

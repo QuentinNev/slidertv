@@ -28,5 +28,6 @@ router
     router.post('logout', [controllers.Session, 'destroy'])
     router.get('dashboard', [controllers.Dashboard, 'index']).as('dashboard')
     router.post('dashboard', [controllers.Dashboard, 'update']).as('dashboard.update')
+    router.post('dashboard/colors', [controllers.Dashboard, 'updateColors']).as('dashboard.colors')
   })
   .use(middleware.auth())

@@ -9,6 +9,11 @@ interface Location {
   longitude: number
 }
 
+interface Colors {
+  backgroundColor: string | null
+  accentColor: string | null
+}
+
 interface GeoResult {
   id: number
   name: string
@@ -50,12 +55,23 @@ function useGeoSearch(query: string) {
   return { results, loading }
 }
 
-export default function Dashboard({ location }: { location: Location | null }) {
-  const data = location.$attributes;
+export default function Dashboard({
+  location,
+  colors,
+}: {
+  location: Location | null
+  colors: Colors | null
+}) {
+  const data = location?.$attributes ?? location
   const form = useForm({
     name: location?.name ?? '',
     latitude: location?.latitude ?? '',
     longitude: location?.longitude ?? '',
+  });
+
+  const colorForm = useForm({
+    backgroundColor: colors?.$attributes.backgroundColor ?? '#0d0d14',
+    accentColor: colors?.$attributes.accentColor ?? '#e53e3e',
   })
 
   const [query, setQuery] = useState('')
@@ -89,6 +105,11 @@ export default function Dashboard({ location }: { location: Location | null }) {
     form.post('/dashboard')
   }
 
+  function submitColors(e: React.FormEvent) {
+    e.preventDefault()
+    colorForm.post('/dashboard/colors')
+  }
+
   return (
     <div className="db-layout">
       <header className="db-header">
@@ -99,8 +120,35 @@ export default function Dashboard({ location }: { location: Location | null }) {
       <main className="db-main">
         <section className="db-card">
           <h2>Palette de couleur</h2>
-          <ColorPicker/>
+          <form onSubmit={submitColors} className="db-form">
+            <div className="db-colors-fields">
+              <div className="db-field">
+                <label className="db-color-label">Fond</label>
+                <ColorPicker
+                  value={colorForm.data.backgroundColor}
+                  onChange={(hex) => colorForm.setData('backgroundColor', hex)}
+                />
+                {colorForm.errors.backgroundColor && (
+                  <div className="db-error">{colorForm.errors.backgroundColor}</div>
+                )}
+              </div>
+              <div className="db-field">
+                <label className="db-color-label">Accent</label>
+                <ColorPicker
+                  value={colorForm.data.accentColor}
+                  onChange={(hex) => colorForm.setData('accentColor', hex)}
+                />
+                {colorForm.errors.accentColor && (
+                  <div className="db-error">{colorForm.errors.accentColor}</div>
+                )}
+              </div>
+            </div>
+            <button type="submit" disabled={colorForm.processing} className="db-submit">
+              {colorForm.processing ? 'Enregistrement…' : 'Enregistrer les couleurs'}
+            </button>
+          </form>
         </section>
+
         <section className="db-card">
           <h2>Localisation météo</h2>
           {location ? (
