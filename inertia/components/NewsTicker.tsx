@@ -1,12 +1,12 @@
-const NEWS_ITEMS = [
-  'Actualité 1 — Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-  'Actualité 2 — Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-  'Actualité 3 — Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris',
-  'Actualité 4 — Duis aute irure dolor in reprehenderit in voluptate velit esse cillum',
-]
+export interface NewsItem {
+  title: string
+}
 
-export default function NewsTicker() {
-  const text = NEWS_ITEMS.join('     ◆     ')
+export default function NewsTicker({ news }: { news: NewsItem[] }) {
+  if (news.length === 0) return null
+
+  const text = news.map((n) => n.title).join('     ◆     ')
+
   return (
     <div className="tv-news-bar">
       <span className="tv-news-label">ACTU</span>

@@ -1,7 +1,7 @@
 import WeatherWidget, { type WeatherData } from '~/components/WeatherWidget'
 import DateTimeWidget from '~/components/DateTimeWidget'
 import Slider from '~/components/Slider'
-import NewsTicker from '~/components/NewsTicker'
+import NewsTicker, { type NewsItem } from '~/components/NewsTicker'
 
 interface Location {
   name: string
@@ -12,9 +12,11 @@ interface Location {
 export default function Home({
   weather,
   location,
+  news,
 }: {
   weather: WeatherData | null
   location: Location | null
+  news: NewsItem[]
 }) {
   return (
     <div className="tv-layout">
@@ -26,7 +28,7 @@ export default function Home({
         <Slider />
       </section>
       <footer className="tv-footer">
-        <NewsTicker />
+        <NewsTicker news={news} />
       </footer>
     </div>
   )

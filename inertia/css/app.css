@@ -554,7 +554,7 @@ button:hover {
   white-space: nowrap;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.75);
-  animation: ticker 50s linear infinite;
+  animation: ticker 180s linear infinite;
   will-change: transform;
 }
 
