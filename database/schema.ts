@@ -22,6 +22,27 @@ export class AppSettingSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class SlideSchema extends BaseModel {
+  static $columns = ['content', 'createdAt', 'id', 'media', 'mediaName', 'mediaType', 'title', 'updatedAt'] as const
+  $columns = SlideSchema.$columns
+  @column()
+  declare content: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare media: string | null
+  @column()
+  declare mediaName: string | null
+  @column()
+  declare mediaType: string | null
+  @column()
+  declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns
@@ -52,45 +73,6 @@ export class WeatherLocationSchema extends BaseModel {
   declare longitude: number
   @column()
   declare name: string
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
-}
-
-export class SlideSchema extends BaseModel {
-  static $columns = [
-    'id',
-    'title',
-    'content',
-    'media',
-    'mediaType',
-    'mediaName',
-    'createdAt',
-    'updatedAt',
-  ] as const
-
-  $columns = SlideSchema.$columns
-
-  @column({ isPrimary: true })
-  declare id: number
-
-  @column()
-  declare title: string
-
-  @column()
-  declare content: string
-
-  @column()
-  declare media: string | null
-
-  @column()
-  declare mediaType: string | null
-
-  @column()
-  declare mediaName: string | null
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
