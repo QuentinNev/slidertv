@@ -14,7 +14,6 @@ const locationValidator = vine.compile(
 export default class DashboardController {
   async index({ inertia }: HttpContext) {
     const location = await WeatherLocation.first()
-    console.log("location",location);
     return inertia.render('dashboard', { location: location ?? null })
   }
 
