@@ -4,6 +4,7 @@ type ParamValue = string | number | bigint | boolean
 
 export type ScannedRoutes = {
   ALL: {
+    'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
     'events': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
@@ -16,6 +17,7 @@ export type ScannedRoutes = {
     'dashboard.colors': { paramsTuple?: []; params?: {} }
   }
   GET: {
+    'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
     'events': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
@@ -23,6 +25,7 @@ export type ScannedRoutes = {
     'dashboard': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
+    'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
     'events': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
