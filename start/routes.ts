@@ -22,7 +22,7 @@ router
     router.get('login', [controllers.Session, 'create'])
     router.post('login', [controllers.Session, 'store'])
 
-    router.get('slide', [controllers.Slide, 'show'])
+    router.get('slide/:id', [controllers.Slide, 'show'])
     router.post('slide', [controllers.Slide, 'updateSlide'])
   })
   .use(middleware.guest())

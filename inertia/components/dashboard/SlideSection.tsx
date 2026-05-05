@@ -16,7 +16,7 @@ export default function SlideSection({ slide }: { slide?: any }) {
   function submit(e: React.FormEvent) {
     e.preventDefault()
 
-    form.post(slide ? `/dashboard/slide/${slide.id}` : '/dashboard/slide', {
+    form.post(slide ? `/slide/${slide.id}` : '/slide', {
       forceFormData: true,
       method: slide ? 'put' : 'post',
     })
