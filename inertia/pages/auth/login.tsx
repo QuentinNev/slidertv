@@ -4,8 +4,7 @@ export default function Login() {
   return (
     <div className="form-container">
       <div>
-        <h1> Login </h1>
-        <p>Enter your details below to login to your account</p>
+        <h1> Connexion </h1>
       </div>
 
       <div>
@@ -25,7 +24,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Mot de passe</label>
                 <input
                   type="password"
                   name="password"
@@ -37,7 +36,7 @@ export default function Login() {
 
               <div>
                 <button type="submit" className="button">
-                  Login
+                  Connexion
                 </button>
               </div>
             </>
