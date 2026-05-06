@@ -32,9 +32,10 @@ export default class TenantHomeController {
       duration: s.duration,
       isActive: s.isActive,
       order: s.order,
-      // Prepends /storage/ prefix to allow browser to fetch from public disk
       mediaName: s.media ? `/storage/${s.media}` : undefined,
       mediaType: s.mediaType,
+      titleColor: s.titleColor,
+      contentColor: s.contentColor,
     }))
 
     return inertia.render('home', {
