@@ -14,10 +14,10 @@ export default class Slide extends BaseModel {
   @column()
   declare media: string | null
 
-  @column()
+  @column({ columnName: 'media_type' })
   declare mediaType: string | null
 
-  @column()
+  @column({ columnName: 'media_name' })
   declare mediaName: string | null
 
   @column()
