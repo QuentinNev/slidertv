@@ -4,6 +4,7 @@ import { updateSlideValidator, reorderSlidesValidator } from '#validators/slide'
 import Slide from '#models/slide'
 import Tenant from '#models/tenant'
 import { convertPdfToImage } from '#services/pdf_converter'
+import eventBus from '#services/event_bus'
 import fs from 'fs/promises'
 import path from 'path'
 
@@ -59,8 +60,9 @@ export default class SlideController {
     }
 
     if (!media) {
-      // Allows slide updates without changing media; early return saves the slide without file operations
       await slide.save()
+      const tenant = await Tenant.find(tenantId)
+      if (tenant) eventBus.emit(`settings:updated:${tenant.slug}`)
       session.flash('success', isUpdate ? 'Slide updated successfully!' : 'Slide created successfully!')
       return response.redirect().toRoute('dashboard')
     }
@@ -131,6 +133,8 @@ export default class SlideController {
     slide.mediaName = media.clientName
     await slide.save()
 
+    const tenant = await Tenant.find(tenantId)
+    if (tenant) eventBus.emit(`settings:updated:${tenant.slug}`)
     session.flash('success', isUpdate ? 'Slide updated successfully!' : 'Slide created successfully!')
     return response.redirect().toRoute('dashboard')
   }
@@ -148,6 +152,8 @@ export default class SlideController {
       )
     )
 
+    const tenant = await Tenant.find(tenantId)
+    if (tenant) eventBus.emit(`settings:updated:${tenant.slug}`)
     return response.redirect().toRoute('dashboard')
   }
 }
