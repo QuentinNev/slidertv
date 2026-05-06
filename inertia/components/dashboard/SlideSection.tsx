@@ -33,10 +33,11 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
       return
     }
 
-    form.post(slide ? `/slide/${slide.id}` : '/slide', {
-      forceFormData: true,
-      method: slide ? 'put' : 'post',
-    })
+    if (slide) {
+      form.put(`/slide/${slide.id}`, { forceFormData: true })
+    } else {
+      form.post('/slide', { forceFormData: true })
+    }
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {

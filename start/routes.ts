@@ -11,8 +11,21 @@ import { middleware } from '#start/kernel'
 import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
 
+import fs from 'fs'
+import path from 'path'
+
 router.get('/', [controllers.Home, 'index']).as('home')
 router.get('/events', [controllers.Events, 'index']).as('events')
+
+router.get('/storage/*', async ({ params, response }) => {
+  const filePath = path.join('storage', params['*'])
+  try {
+    const stream = fs.createReadStream(filePath)
+    response.stream(stream)
+  } catch {
+    response.status(404).send('File not found')
+  }
+})
 
 router
   .group(() => {
