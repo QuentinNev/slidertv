@@ -35,12 +35,12 @@ export default class AdminController {
     const password = string.random(16)
     await User.create({
       email,
-      password: await hash.make(password),
+      password,
       role: 'tenant',
       tenantId: tenant.id,
     })
 
-    session.flash('success', `Tenant "${name}" créé. Mot de passe : ${password}`)
+    session.flash('success', `Tenant "${name}" créé.`)
     return response.redirect().toRoute('admin')
   }
 
