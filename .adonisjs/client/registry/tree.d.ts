@@ -17,6 +17,7 @@ export interface ApiDefinition {
     tenants: {
       store: typeof routes['admin.tenants.store']
       destroy: typeof routes['admin.tenants.destroy']
+      resetPassword: typeof routes['admin.tenants.reset-password']
     }
   }
   dashboard: typeof routes['dashboard'] & {

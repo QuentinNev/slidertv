@@ -54,6 +54,12 @@ const routes = {
     tokens: [{"old":"/admin/tenants/:id","type":0,"val":"admin","end":""},{"old":"/admin/tenants/:id","type":0,"val":"tenants","end":""},{"old":"/admin/tenants/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['admin.tenants.destroy']['types'],
   },
+  'admin.tenants.reset-password': {
+    methods: ["POST"],
+    pattern: '/admin/tenants/:id/reset-password',
+    tokens: [{"old":"/admin/tenants/:id/reset-password","type":0,"val":"admin","end":""},{"old":"/admin/tenants/:id/reset-password","type":0,"val":"tenants","end":""},{"old":"/admin/tenants/:id/reset-password","type":1,"val":"id","end":""},{"old":"/admin/tenants/:id/reset-password","type":0,"val":"reset-password","end":""}],
+    types: placeholder as Registry['admin.tenants.reset-password']['types'],
+  },
   'dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/dashboard',

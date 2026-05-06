@@ -2,7 +2,6 @@ import vine from '@vinejs/vine'
 import type { HttpContext } from '@adonisjs/core/http'
 import Tenant from '#models/tenant'
 import User from '#models/user'
-import hash from '@adonisjs/core/services/hash'
 import string from '@adonisjs/core/helpers/string'
 
 const tenantValidator = vine.compile(
@@ -61,7 +60,7 @@ export default class AdminController {
     const user = await User.query().where('tenantId', tenant.id).firstOrFail()
 
     const password = string.random(16)
-    user.password = await hash.make(password)
+    user.password = password
     await user.save()
 
     session.flash('newTenant', { email: user.email, password, name: tenant.name })

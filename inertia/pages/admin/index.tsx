@@ -228,7 +228,7 @@ export default function AdminIndex({ tenants, newTenant: initialNewTenant }: { t
             </div>
           </div>
           <p style={{ color: 'var(--gray-6)', fontSize: '12px', marginBottom: 0 }}>
-            Les identifiants peuvent être utilisés pour se connecter à /auth/login
+            Les identifiants peuvent être utilisés pour se connecter sur /login
           </p>
         </div>
       </Modal>

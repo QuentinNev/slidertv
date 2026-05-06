@@ -12,6 +12,7 @@ export type ScannedRoutes = {
     'admin': { paramsTuple?: []; params?: {} }
     'admin.tenants.store': { paramsTuple?: []; params?: {} }
     'admin.tenants.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.tenants.reset-password': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'dashboard.update': { paramsTuple?: []; params?: {} }
     'dashboard.colors': { paramsTuple?: []; params?: {} }
@@ -50,6 +51,7 @@ export type ScannedRoutes = {
     'session.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
     'admin.tenants.store': { paramsTuple?: []; params?: {} }
+    'admin.tenants.reset-password': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'dashboard.update': { paramsTuple?: []; params?: {} }
     'dashboard.colors': { paramsTuple?: []; params?: {} }
     'slide.create': { paramsTuple?: []; params?: {} }
