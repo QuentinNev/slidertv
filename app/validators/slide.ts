@@ -23,3 +23,14 @@ export const updateSlideValidator = vine.compile(
       .optional(),
   })
 )
+
+export const reorderSlidesValidator = vine.compile(
+  vine.object({
+    orders: vine.array(
+      vine.object({
+        id: vine.number().positive(),
+        order: vine.number().min(0),
+      })
+    ),
+  })
+)
