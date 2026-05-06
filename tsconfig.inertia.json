@@ -6,7 +6,7 @@
  *
  * The main part here is "composite: true"
  */
-{
+ {
   "extends": "./inertia/tsconfig.json",
   "compilerOptions": {
     "rootDir": "./inertia",

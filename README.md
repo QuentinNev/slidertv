@@ -4,8 +4,13 @@ A multi-tenant web application for managing dynamic TV display content. Display 
 
 ## Prerequisites
 
+### For Local Development
 - **Node.js** >= 24.0.0
 - **npm** >= 11.0.0
+
+### For Docker Deployment
+- **Docker** and **Docker Compose**
+- **Git** (for version control)
 
 ## Installation & Setup
 
@@ -71,7 +76,9 @@ To populate the database with initial data:
 node ace db:seed
 ```
 
-## Running the Development Server
+## Running the Application
+
+### Option 1: Local Development
 
 Start the development server with hot module reloading (HMR):
 
@@ -80,6 +87,28 @@ npm run dev
 ```
 
 The application will be available at `http://localhost:3333`
+
+### Option 2: Docker
+
+Build and run the application in a Docker container:
+
+```bash
+docker-compose up -d
+```
+
+The application will be available at `http://localhost:3333`
+
+To stop the container:
+
+```bash
+docker-compose down
+```
+
+To view logs:
+
+```bash
+docker-compose logs -f slidertv-app
+```
 
 ### Available Development Commands
 
