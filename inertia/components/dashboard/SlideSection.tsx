@@ -13,6 +13,7 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
   })
 
   const [preview, setPreview] = useState<{ url: string; type: string } | null>(null)
+  const [isDragActive, setIsDragActive] = useState(false)
 
   useEffect(() => {
     form.setData({
@@ -44,10 +45,37 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
     const file = e.target.files?.[0] ?? null
     if (!file) return
 
+    processFile(file)
+  }
+
+  function processFile(file: File) {
     form.setData('media', file)
 
     const url = URL.createObjectURL(file)
     setPreview({ url, type: file.type })
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragActive(true)
+  }
+
+  function handleDragLeave(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragActive(false)
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragActive(false)
+
+    const file = e.dataTransfer.files?.[0] ?? null
+    if (!file) return
+
+    processFile(file)
   }
 
   useEffect(() => {
@@ -90,8 +118,8 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
           {form.errors.content && <div className="db-error">{form.errors.content}</div>}
         </div>
 
-        {/* DURATION */}
-        <div className="db-row">
+        {/* DURATION & VISIBLE */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
           <div className="db-field">
             <label>Durée (sec)</label>
             <input
@@ -101,55 +129,98 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
             />
             {form.errors.duration && <div className="db-error">{form.errors.duration}</div>}
           </div>
-        </div>
 
-        {/* VISIBLE */}
-        <div className="db-field">
-          <label>
-            <input
-              type="checkbox"
-              checked={form.data.isActive}
-              onChange={(e) => form.setData('isActive', e.target.checked)}
-            />
-            Visible
-          </label>
-          {form.errors.isActive && <div className="db-error">{form.errors.isActive}</div>}
+          <div className="db-field">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 0 }}>
+              <input
+                type="checkbox"
+                checked={form.data.isActive}
+                onChange={(e) => form.setData('isActive', e.target.checked)}
+                style={{ width: 'auto', height: 'auto' }}
+              />
+              Visible
+            </label>
+            {form.errors.isActive && <div className="db-error">{form.errors.isActive}</div>}
+          </div>
         </div>
 
         {/* MEDIA WITH PREVIEW */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'start' }}>
-          <div className="db-field">
-            <label>Média</label>
-            <input type="file" onChange={handleFileChange} accept="image/*,video/*,application/pdf" />
-            {form.errors.media && <div className="db-error">{form.errors.media}</div>}
-          </div>
-
-          <div style={{ minHeight: '200px' }}>
-            {preview && (
-              <div className="db-preview">
-                <p style={{ marginTop: 0 }}>Aperçu :</p>
-                {preview.type.startsWith('image/') && <img src={preview.url} alt="preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
-                {preview.type.startsWith('video/') && <video src={preview.url} controls style={{ maxWidth: '100%', maxHeight: '300px' }} />}
-                {preview.type === 'application/pdf' && (
-                  <a href={preview.url} target="_blank" rel="noreferrer">
-                    Voir PDF
-                  </a>
-                )}
+        <div className="db-field">
+          <label>Média</label>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'start' }}>
+            <div>
+              <div
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                style={{
+                  minHeight: '200px',
+                  border: '2px dashed',
+                  borderColor: isDragActive ? '#1971c2' : 'var(--gray-4)',
+                  borderRadius: '6px',
+                  padding: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  backgroundColor: isDragActive ? 'rgba(25, 113, 194, 0.05)' : 'transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  accept="image/*,video/*,application/pdf"
+                  style={{ display: 'none' }}
+                  id="media-input"
+                />
+                <label
+                  htmlFor="media-input"
+                  style={{
+                    cursor: 'pointer',
+                    textAlign: 'center',
+                    fontSize: '14px',
+                    color: isDragActive ? '#1971c2' : 'var(--gray-7)',
+                  }}
+                >
+                  <div style={{ fontWeight: 500, marginBottom: '4px' }}>
+                    {isDragActive ? 'Déposez votre fichier' : 'Glissez-déposez un fichier'}
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'var(--gray-6)' }}>ou cliquez pour parcourir</div>
+                </label>
               </div>
-            )}
+              {form.errors.media && <div className="db-error">{form.errors.media}</div>}
+            </div>
 
-            {!preview && slide?.media && (
-              <div className="db-preview">
-                <p style={{ marginTop: 0 }}>Média actuel :</p>
-                {slide.mediaType?.startsWith('image/') && <img src={`/storage/${slide.media}`} style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
-                {slide.mediaType?.startsWith('video/') && <video src={`/storage/${slide.media}`} controls style={{ maxWidth: '100%', maxHeight: '300px' }} />}
-                {slide.mediaType === 'application/pdf' && (
-                  <a href={`/storage/${slide.media}`} target="_blank">
-                    Voir PDF
-                  </a>
-                )}
-              </div>
-            )}
+            <div style={{ minHeight: '200px' }}>
+              {preview && (
+                <div className="db-preview">
+                  <p style={{ marginTop: 0 }}>Aperçu :</p>
+                  {preview.type.startsWith('image/') && <img src={preview.url} alt="preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
+                  {preview.type.startsWith('video/') && <video src={preview.url} controls style={{ maxWidth: '100%', maxHeight: '300px' }} />}
+                  {preview.type === 'application/pdf' && (
+                    <a href={preview.url} target="_blank" rel="noreferrer">
+                      Voir PDF
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {!preview && slide?.media && (
+                <div className="db-preview">
+                  <p style={{ marginTop: 0 }}>Média actuel :</p>
+                  {slide.mediaType?.startsWith('image/') && <img src={`/storage/${slide.media}`} style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
+                  {slide.mediaType?.startsWith('video/') && <video src={`/storage/${slide.media}`} controls style={{ maxWidth: '100%', maxHeight: '300px' }} />}
+                  {slide.mediaType === 'application/pdf' && (
+                    <a href={`/storage/${slide.media}`} target="_blank">
+                      Voir PDF
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
