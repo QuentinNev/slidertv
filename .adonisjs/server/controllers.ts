@@ -4,14 +4,14 @@
  */
 
 export const controllers = {
-  NewAccount: () => import('#controllers/new_account_controller'),
-  Session: () => import('#controllers/session_controller'),
   Admin: () => import('#controllers/admin_controller'),
+  AppSetting: () => import('#controllers/app_setting_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
   Events: () => import('#controllers/events_controller'),
   Home: () => import('#controllers/home_controller'),
+  NewAccount: () => import('#controllers/new_account_controller'),
+  Session: () => import('#controllers/session_controller'),
   Slide: () => import('#controllers/slide_controller'),
   TenantEvents: () => import('#controllers/tenant_events_controller'),
   TenantHome: () => import('#controllers/tenant_home_controller'),
-  AppSetting: () => import('#controllers/app_setting_controller'),
 }
