@@ -1,23 +1,15 @@
-import { useForm, usePage } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react'
 import { useState, useEffect, useRef } from 'react'
 import useGeoSearch from '~/hooks/useGeoSearch'
+import type { Location, GeoResult } from '~/types'
 
-export  default function MeteoSection({location}){
+export default function MeteoSection({ location }: { location?: Location }) {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
   const { results, loading } = useGeoSearch(query)
 
   const searchRef = useRef<HTMLDivElement>(null)
-  const data = location?.$attributes;
-
-  interface GeoResult {
-    id: number
-    name: string
-    latitude: number
-    longitude: number
-    country: string
-    admin1?: string
-  }
+  const data = location?.$attributes
 
   const form = useForm({
     name: location?.name ?? '',

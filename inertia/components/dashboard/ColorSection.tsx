@@ -1,18 +1,20 @@
 import ColorPicker from '~/components/ColorPicker'
 import { useForm } from '@inertiajs/react'
+import type { Colors } from '~/types'
 
-export  default function ColorSection({colors}){
-  
+export default function ColorSection({ colors }: { colors?: Colors }) {
+  const colorForm = useForm({
+    backgroundColor: colors?.backgroundColor ?? '#0d0d14',
+    accentColor: colors?.accentColor ?? '#e53e3e',
+  })
+
   function submitColors(e: React.FormEvent) {
     e.preventDefault()
+    if (!colorForm.data.backgroundColor || !colorForm.data.accentColor) {
+      return
+    }
     colorForm.post('/dashboard/colors')
   }
-  
-
-  const colorForm = useForm({
-    backgroundColor: colors?.$attributes.backgroundColor ?? '#0d0d14',
-    accentColor: colors?.$attributes.accentColor ?? '#e53e3e',
-  })
 
   return (
   <section className="db-card">

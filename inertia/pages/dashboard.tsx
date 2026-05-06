@@ -2,13 +2,17 @@ import DashboardLayout from '~/components/dashboard/Layout'
 import ColorSection from '~/components/dashboard/ColorSection'
 import MeteoSection from '~/components/dashboard/MeteoSection'
 import SlideSection from '~/components/dashboard/SlideSection'
+import { useState } from 'react'
+import type { DashboardSection, Colors, Location } from '~/types'
 
-import {useState} from 'react'
-
-export default function Dashboard({location, colors}:{
-  
+export default function Dashboard({
+  location,
+  colors,
+}: {
+  location?: Location
+  colors?: Colors
 }) {
-  const [section, setSection] = useState('colors')
+  const [section, setSection] = useState<DashboardSection>('colors')
 
   return (
     <DashboardLayout section={section} setSection={setSection}>

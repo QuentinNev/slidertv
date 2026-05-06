@@ -1,7 +1,8 @@
 import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
+import type { Slide } from '~/types'
 
-export default function SlideSection({ slide }: { slide?: any }) {
+export default function SlideSection({ slide }: { slide?: Slide }) {
   const form = useForm({
     title: slide?.title ?? '',
     content: slide?.content ?? '',
@@ -16,6 +17,10 @@ export default function SlideSection({ slide }: { slide?: any }) {
   function submit(e: React.FormEvent) {
     e.preventDefault()
 
+    if (!form.data.title.trim()) {
+      return
+    }
+
     form.post(slide ? `/slide/${slide.id}` : '/slide', {
       forceFormData: true,
       method: slide ? 'put' : 'post',
@@ -29,11 +34,20 @@ export default function SlideSection({ slide }: { slide?: any }) {
     form.setData('media', file)
 
     if (file.type.startsWith('image/')) {
-      setPreview(URL.createObjectURL(file))
+      const url = URL.createObjectURL(file)
+      setPreview(url)
     } else {
       setPreview(null)
     }
   }
+
+  useEffect(() => {
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview)
+      }
+    }
+  }, [preview])
 
   useEffect(() => {
     if (slide?.media_url) {

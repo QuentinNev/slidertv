@@ -1,32 +1,22 @@
 import { useForm, usePage } from '@inertiajs/react'
-import { useState, useEffect, useRef } from 'react'
-import ColorSection from '~/components/dashboard/ColorSection'
-import MeteoSection from '~/components/dashboard/MeteoSection'
+import type { ReactNode } from 'react'
+import type { Data } from '@generated/data'
+import type { DashboardSection } from '~/types'
 
-import { Data } from '@generated/data'
-
-type Section = 'colors' | 'meteo' | 'slide'
-
-const NAV_ITEMS: { id: Section; label: string }[] = [
+const NAV_ITEMS: { id: DashboardSection; label: string }[] = [
   { id: 'colors', label: 'Palette de couleurs' },
   { id: 'meteo', label: 'Localisation météo' },
   { id: 'slide', label: 'Slides' },
 ]
-
-interface Colors {
-  backgroundColor: string | null
-  accentColor: string | null
-}
 
 export default function Layout({
   section,
   setSection,
   children,
 }: {
-  children: React.ReactNode
-  colors: Colors | null
-  section: any
-  setSection: any
+  children: ReactNode
+  section: DashboardSection
+  setSection: (section: DashboardSection) => void
 }) {
   const { props } = usePage<Data.SharedProps>()
   const user = props.user
