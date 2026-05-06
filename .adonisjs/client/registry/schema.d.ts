@@ -43,30 +43,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/events_controller').default['index']>>>
     }
   }
-  'slide.show': {
-    methods: ["GET","HEAD"]
-    pattern: '/slide/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>
-    }
-  }
-  'slide.update_slide': {
-    methods: ["POST"]
-    pattern: '/slide'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'new_account.create': {
     methods: ["GET","HEAD"]
     pattern: '/signup'
@@ -161,6 +137,42 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['updateColors']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['updateColors']>>>
+    }
+  }
+  'slide.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/slide/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['show']>>>
+    }
+  }
+  'slide.create': {
+    methods: ["POST"]
+    pattern: '/slide'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'slide.update': {
+    methods: ["PUT"]
+    pattern: '/slide/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/slide').updateSlideValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
 }

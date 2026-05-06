@@ -7,8 +7,6 @@ export type ScannedRoutes = {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
     'events': { paramsTuple?: []; params?: {} }
-    'slide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'slide.update_slide': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
@@ -17,32 +15,38 @@ export type ScannedRoutes = {
     'dashboard': { paramsTuple?: []; params?: {} }
     'dashboard.update': { paramsTuple?: []; params?: {} }
     'dashboard.colors': { paramsTuple?: []; params?: {} }
+    'slide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'slide.create': { paramsTuple?: []; params?: {} }
+    'slide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
     'events': { paramsTuple?: []; params?: {} }
-    'slide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
+    'slide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'home': { paramsTuple?: []; params?: {} }
     'events': { paramsTuple?: []; params?: {} }
-    'slide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'new_account.create': { paramsTuple?: []; params?: {} }
     'session.create': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
+    'slide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
-    'slide.update_slide': { paramsTuple?: []; params?: {} }
     'new_account.store': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
     'dashboard.update': { paramsTuple?: []; params?: {} }
     'dashboard.colors': { paramsTuple?: []; params?: {} }
+    'slide.create': { paramsTuple?: []; params?: {} }
+  }
+  PUT: {
+    'slide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

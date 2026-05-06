@@ -31,8 +31,8 @@ router
     router.post('dashboard', [controllers.Dashboard, 'update']).as('dashboard.update')
     router.post('dashboard/colors', [controllers.Dashboard, 'updateColors']).as('dashboard.colors')
 
-    router.get('slide/:id', [controllers.Slide, 'show'])
-    router.post('slide', [controllers.Slide, 'updateSlide'])
-    router.put('slide/:id', [controllers.Slide, 'updateSlide'])
+    router.get('slide/:id', [controllers.Slide, 'show']).as('slide.show')
+    router.post('slide', [controllers.Slide, 'updateSlide']).as('slide.create')
+    router.put('slide/:id', [controllers.Slide, 'updateSlide']).as('slide.update')
   })
   .use(middleware.auth())
