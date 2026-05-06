@@ -12,6 +12,8 @@ export default class SessionController {
 
     await auth.use('web').login(user)
 
+    // Admins (role='admin') manage tenants and have no tenantId
+    // Tenant users access their specific dashboard
     if (user.role === 'admin') {
       return response.redirect().toRoute('admin')
     }

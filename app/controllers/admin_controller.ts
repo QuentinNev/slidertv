@@ -13,6 +13,7 @@ const tenantValidator = vine.compile(
       .trim()
       .minLength(2)
       .regex(/^[a-z0-9-]+$/)
+      // Slug must be unique per tenant as it serves as root route (e.g., /hotel-ibis)
       .unique(async (_db, value) => {
         const existing = await Tenant.findBy('slug', value)
         return !existing
@@ -33,6 +34,7 @@ export default class AdminController {
 
     const tenant = await Tenant.create({ name, slug })
 
+    // Generates random password to be displayed to admin, who shares it with tenant
     const password = string.random(16)
     await User.create({
       email,
@@ -41,7 +43,8 @@ export default class AdminController {
       tenantId: tenant.id,
     })
 
-    session.flash('success', `Tenant "${name}" créé.`)
+    session.flash('success', `Tenant "${name}" created.`)
+    // Pass credentials in session flash to display in modal
     session.flash('newTenant', { email, password, name })
     return response.redirect().toRoute('admin')
   }

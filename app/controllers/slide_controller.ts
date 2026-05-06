@@ -10,6 +10,7 @@ import path from 'path'
 export default class SlideController {
   async show({ params, inertia, auth }: HttpContext) {
     const tenantId = auth.user!.tenantId!
+    // Fetches slide and tenant in parallel; the WHERE clause on tenantId in slide query ensures tenant isolation
     const [slide, tenant] = await Promise.all([
       Slide.query().where('id', params.id).where('tenantId', tenantId).first(),
       Tenant.find(tenantId),
@@ -32,6 +33,7 @@ export default class SlideController {
         order: s.order,
         duration: s.duration,
         isActive: s.isActive,
+        // Prepends /storage/ prefix for client-side file access from public storage disk
         mediaName: s.media ? `/storage/${s.media}` : undefined,
       },
     })
@@ -39,21 +41,25 @@ export default class SlideController {
 
   async updateSlide({ request, response, session, auth }: HttpContext) {
     const { media, ...data } = await request.validateUsing(updateSlideValidator)
+    // Route can handle both POST (create) and PUT (update) by checking HTTP method
     const isUpdate = request.method() === 'PUT'
     const slideId = isUpdate ? request.param('id') : null
     const tenantId = auth.user!.tenantId!
 
+    // Ensures tenant isolation by filtering on tenantId for updates; creates new instance for inserts
     const slide = isUpdate
       ? await Slide.query().where('id', slideId).where('tenantId', tenantId).firstOrFail()
       : new Slide()
 
     if (!isUpdate) {
+      // fill() sets multiple attributes at once; merge() is used for updates to only set provided fields
       slide.fill({ ...data, tenantId })
     } else {
       slide.merge(data)
     }
 
     if (!media) {
+      // Allows slide updates without changing media; early return saves the slide without file operations
       await slide.save()
       session.flash('success', isUpdate ? 'Slide updated successfully!' : 'Slide created successfully!')
       return response.redirect().toRoute('dashboard')
@@ -61,6 +67,7 @@ export default class SlideController {
 
     const mime = media.headers['content-type']
 
+    // Folder structure organizes different media types to aid in storage management and cleanup
     let folder = 'files'
     let extension = media.extname ?? 'bin'
     let finalMime = mime
@@ -70,6 +77,7 @@ export default class SlideController {
     } else if (mime.startsWith('video/')) {
       folder = 'slides/videos'
     } else if (mime === 'application/pdf') {
+      // PDFs must be converted to images since the video player on TV displays images as-is
       folder = 'slides/images'
       extension = 'png'
       finalMime = 'image/png'
@@ -78,10 +86,12 @@ export default class SlideController {
       return response.redirect().back()
     }
 
+    // UUID filenames prevent collisions and strip any directory traversal or special characters from uploaded names
     const filename = `${string.uuid()}.${extension}`
     const key = `${folder}/${filename}`
 
     if (mime === 'application/pdf') {
+      // PDF conversion requires temporary storage and async processing before moving to final location
       const tempDir = path.join('storage', 'temp')
       const tempPdfName = `${string.uuid()}.pdf`
       const tempPdfPath = path.join(tempDir, tempPdfName)
@@ -96,12 +106,14 @@ export default class SlideController {
         await fs.mkdir(outputDir, { recursive: true })
         console.log('Output path:', outputPath)
 
+        // External service converts first page of PDF to PNG for display on TV screen
         await convertPdfToImage(tempPdfPath, outputPath)
         console.log('Conversion completed')
 
         const exists = await fs.access(outputPath).then(() => true).catch(() => false)
         console.log('File exists after conversion:', exists)
 
+        // Cleans up temporary file after successful conversion
         await fs.rm(tempPdfPath)
       } catch (error) {
         console.error('PDF conversion error:', error)
@@ -109,9 +121,11 @@ export default class SlideController {
         return response.redirect().back()
       }
     } else {
+      // Non-PDF files move directly to their final storage location
       await media.moveToDisk(key)
     }
 
+    // Stores the path and MIME type separately; mediaName is the original filename for display purposes
     slide.media = key
     slide.mediaType = finalMime
     slide.mediaName = media.clientName

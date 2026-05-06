@@ -33,6 +33,7 @@ export default class DashboardController {
       return inertia.render('errors/server_error', { status: 500, message: 'Tenant not found' })
     }
 
+    // Fetches all tenant data in parallel for faster loading
     const [location, colors, slides] = await Promise.all([
       WeatherLocation.query().where('tenantId', tenantId).first(),
       AppSetting.query().where('tenantId', tenantId).first(),

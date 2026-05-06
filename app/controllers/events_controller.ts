@@ -11,11 +11,13 @@ export default class EventsController {
       'Connection': 'keep-alive',
       'X-Accel-Buffering': 'no',
     })
+    // `:ok` is an SSE comment confirming to client that connection is established
     res.write(':ok\n\n')
 
     const send = () => res.write('data: update\n\n')
     eventBus.on('settings:updated', send)
 
+    // Proxies/load-balancers may close idle connections; sends ping every 30s to keep them alive
     const keepAlive = setInterval(() => res.write(':ping\n\n'), 30_000)
 
     await new Promise<void>((resolve) => {
