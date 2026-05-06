@@ -148,6 +148,6 @@ export default class SlideController {
       )
     )
 
-    return response.ok({ success: true })
+    return response.redirect().toRoute('dashboard')
   }
 }
