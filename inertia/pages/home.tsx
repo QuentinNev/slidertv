@@ -4,6 +4,7 @@ import WeatherWidget, { type WeatherData } from '~/components/WeatherWidget'
 import DateTimeWidget from '~/components/DateTimeWidget'
 import Slider from '~/components/Slider'
 import NewsTicker, { type NewsItem } from '~/components/NewsTicker'
+import type { Slide } from '~/types'
 
 interface Location {
   name: string
@@ -21,15 +22,17 @@ export default function Home({
   location,
   news,
   colors,
+  slides = [],
 }: {
   weather: WeatherData | null
   location: Location | null
   news: NewsItem[]
   colors: Colors | null
+  slides?: Slide[]
 }) {
   useEffect(() => {
     const es = new EventSource('/events')
-    es.onmessage = () => router.reload({ only: ['colors', 'location', 'weather', 'news'] })
+    es.onmessage = () => router.reload({ only: ['colors', 'location', 'weather', 'news', 'slides'] })
     return () => es.close()
   }, [])
 
@@ -45,7 +48,7 @@ export default function Home({
         <DateTimeWidget />
       </aside>
       <section className="tv-main">
-        <Slider />
+        <Slider slides={slides} />
       </section>
       <footer className="tv-footer">
         <NewsTicker news={news} />

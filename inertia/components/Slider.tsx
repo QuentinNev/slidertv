@@ -1,23 +1,42 @@
 import { useState, useEffect } from 'react'
+import type { Slide } from '~/types'
 
-const SLIDES = [
-  { id: 1, bg: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)', title: 'Bienvenue' },
-  { id: 2, bg: 'linear-gradient(135deg, #0f3460 0%, #533483 100%)', title: 'SliderTV' },
-  { id: 3, bg: 'linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%)', title: 'Panneau 3' },
+const FALLBACK_SLIDES = [
+  { id: 1, title: 'Bienvenue', content: '', duration: 6 },
+  { id: 2, title: 'SliderTV', content: '', duration: 6 },
+  { id: 3, title: 'Panneau 3', content: '', duration: 6 },
 ]
 
-export default function Slider() {
+export default function Slider({ slides = [] }: { slides?: Slide[] }) {
+  const displaySlides = slides.length > 0 ? slides : FALLBACK_SLIDES
   const [idx, setIdx] = useState(0)
+
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % SLIDES.length), 6000)
+    if (displaySlides.length === 0) return
+
+    const currentSlide = displaySlides[idx]
+    const duration = currentSlide.duration || 6
+    const t = setInterval(() => setIdx((i) => (i + 1) % displaySlides.length), duration * 1000)
     return () => clearInterval(t)
-  }, [])
+  }, [idx, displaySlides])
+
+  if (displaySlides.length === 0) {
+    return (
+      <div className="tv-slider" style={{ background: 'var(--tv-bg)' }}>
+        <div className="tv-slider-title">Pas de slides disponibles</div>
+      </div>
+    )
+  }
+
+  const slide = displaySlides[idx]
+
   return (
-    <div className="tv-slider" style={{ background: SLIDES[idx].bg }}>
-      <div className="tv-slider-title">{SLIDES[idx].title}</div>
+    <div className="tv-slider" style={{ background: 'var(--tv-bg)' }}>
+      <div className="tv-slider-title">{slide.title}</div>
+      {slide.content && <div className="tv-slider-content">{slide.content}</div>}
       <div className="tv-slider-dots">
-        {SLIDES.map((s, i) => (
-          <button key={s.id} className={`tv-dot${i === idx ? ' active' : ''}`} onClick={() => setIdx(i)} />
+        {displaySlides.map((_, i) => (
+          <button key={i} className={`tv-dot${i === idx ? ' active' : ''}`} onClick={() => setIdx(i)} />
         ))}
       </div>
     </div>
