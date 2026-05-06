@@ -1,0 +1,56 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: slidertv-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3333
+      HOST: 0.0.0.0
+      TZ: UTC
+      LOG_LEVEL: info
+      # Load other env vars from .env.prod file
+      FILE: .env.prod
+    volumes:
+      # Persist storage directory (uploads, slides, database)
+      - storage_volume:/app/storage
+    networks:
+      - slidertv-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3333/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    expose:
+      - "3333"
+
+  nginx:
+    image: nginx:alpine
+    container_name: slidertv-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro  # Mount SSL certificates if using HTTPS
+    networks:
+      - slidertv-network
+    depends_on:
+      - app
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  storage_volume:
+    driver: local
+
+networks:
+  slidertv-network:
+    driver: bridge
