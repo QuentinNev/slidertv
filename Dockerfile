@@ -31,8 +31,6 @@ RUN npm ci --omit=dev
 
 # Copy built application and necessary files from builder
 COPY --from=builder /app/build ./build
-COPY --from=builder /app/inertia ./inertia
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/start ./start
 COPY --from=builder /app/config ./config
 COPY --from=builder /app/database ./database
