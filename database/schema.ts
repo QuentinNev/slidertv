@@ -8,7 +8,7 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AppSettingSchema extends BaseModel {
-  static $columns = ['accentColor', 'backgroundColor', 'createdAt', 'id', 'tenantId', 'updatedAt'] as const
+  static $columns = ['accentColor', 'backgroundColor', 'createdAt', 'id', 'tenantId', 'textColor', 'updatedAt'] as const
   $columns = AppSettingSchema.$columns
   @column()
   declare accentColor: string | null
@@ -20,6 +20,8 @@ export class AppSettingSchema extends BaseModel {
   declare id: number
   @column()
   declare tenantId: number | null
+  @column()
+  declare textColor: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

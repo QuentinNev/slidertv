@@ -21,6 +21,7 @@ const colorsValidator = vine.compile(
   vine.object({
     backgroundColor: hexColor,
     accentColor: hexColor,
+    textColor: hexColor,
   })
 )
 
@@ -66,14 +67,14 @@ export default class DashboardController {
   }
 
   async updateColors({ request, response, session, auth }: HttpContext) {
-    const { backgroundColor, accentColor } = await request.validateUsing(colorsValidator)
+    const { backgroundColor, accentColor, textColor } = await request.validateUsing(colorsValidator)
     const tenantId = auth.user!.tenantId!
 
     const existing = await AppSetting.query().where('tenantId', tenantId).first()
     if (existing) {
-      await existing.merge({ backgroundColor, accentColor }).save()
+      await existing.merge({ backgroundColor, accentColor, textColor }).save()
     } else {
-      await AppSetting.create({ backgroundColor, accentColor, tenantId })
+      await AppSetting.create({ backgroundColor, accentColor, textColor, tenantId })
     }
 
     const tenant = await Tenant.find(tenantId)

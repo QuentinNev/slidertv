@@ -9,6 +9,7 @@ export type DashboardSection = 'colors' | 'meteo' | 'slide'
 export interface Colors {
   backgroundColor: string | null
   accentColor: string | null
+  textColor: string | null
 }
 
 export interface Location {

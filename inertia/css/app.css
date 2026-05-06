@@ -655,7 +655,7 @@ button:hover {
     'left main'
     'foot foot';
   background: var(--tv-bg, #0d0d14);
-  color: #fff;
+  color: var(--tv-text, #fff);
   overflow: hidden;
   font-family: system-ui, sans-serif;
 }
@@ -858,7 +858,7 @@ button:hover {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 2px;
-  color: #fff;
+  color: var(--tv-text, #fff);
   background: var(--tv-accent, #e53e3e);
   height: 100%;
   display: flex;
@@ -878,7 +878,7 @@ button:hover {
 .tv-news-text {
   white-space: nowrap;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--tv-text, #fff);
   animation: ticker 180s linear infinite;
   will-change: transform;
 }

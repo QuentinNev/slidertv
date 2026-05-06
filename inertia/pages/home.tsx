@@ -15,6 +15,7 @@ interface Location {
 interface Colors {
   backgroundColor: string | null
   accentColor: string | null
+  textColor: string | null
 }
 
 export default function Home({
@@ -41,6 +42,7 @@ export default function Home({
   const style = {
     '--tv-bg': colors?.$attributes.backgroundColor ?? '#0d0d14',
     '--tv-accent': colors?.$attributes.accentColor ?? '#e53e3e',
+    '--tv-text': colors?.$attributes.textColor ?? '#ffffff',
   } as React.CSSProperties
 
   return (

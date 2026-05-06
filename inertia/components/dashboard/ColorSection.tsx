@@ -3,14 +3,19 @@ import { useForm } from '@inertiajs/react'
 import type { Colors } from '~/types'
 
 export default function ColorSection({ colors }: { colors?: Colors }) {
+  const getColor = (key: keyof Colors, defaultValue: string) => {
+    return (colors?.[key] ?? (colors?.$attributes?.[key] as string)) ?? defaultValue
+  }
+
   const colorForm = useForm({
-    backgroundColor: colors?.backgroundColor ?? '#0d0d14',
-    accentColor: colors?.accentColor ?? '#e53e3e',
+    backgroundColor: getColor('backgroundColor', '#0d0d14'),
+    accentColor: getColor('accentColor', '#e53e3e'),
+    textColor: getColor('textColor', '#ffffff'),
   })
 
   function submitColors(e: React.FormEvent) {
     e.preventDefault()
-    if (!colorForm.data.backgroundColor || !colorForm.data.accentColor) {
+    if (!colorForm.data.backgroundColor || !colorForm.data.accentColor || !colorForm.data.textColor) {
       return
     }
     colorForm.post('/dashboard/colors')
@@ -39,6 +44,16 @@ export default function ColorSection({ colors }: { colors?: Colors }) {
           />
           {colorForm.errors.accentColor && (
             <div className="db-error">{colorForm.errors.accentColor}</div>
+          )}
+        </div>
+        <div className="db-field">
+          <label className="db-color-label">Texte</label>
+          <ColorPicker
+            value={colorForm.data.textColor}
+            onChange={(hex) => colorForm.setData('textColor', hex)}
+          />
+          {colorForm.errors.textColor && (
+            <div className="db-error">{colorForm.errors.textColor}</div>
           )}
         </div>
       </div>
