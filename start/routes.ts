@@ -60,6 +60,7 @@ router
     router.get('slide/:id', [controllers.Slide, 'show']).as('slide.show')
     router.post('slide', [controllers.Slide, 'updateSlide']).as('slide.create')
     router.put('slide/:id', [controllers.Slide, 'updateSlide']).as('slide.update')
+    router.patch('slides/reorder', [controllers.Slide, 'reorder']).as('slides.reorder')
   })
   .use(middleware.auth())
 
