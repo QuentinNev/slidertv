@@ -5,8 +5,7 @@ A multi-tenant web application for managing dynamic TV display content. Display 
 ## Prerequisites
 
 - **Node.js** >= 24.0.0
-- **npm** or **yarn** (npm comes with Node.js)
-- **Git** (for version control)
+- **npm** >= 11.0.0
 
 ## Installation & Setup
 
