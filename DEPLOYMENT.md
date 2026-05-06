@@ -62,14 +62,11 @@ sudo certbot certonly --standalone -d yourdomain.com
 ### 3. Build and Start Services
 
 ```bash
-# Build the Docker image
-docker-compose -f docker-compose.prod.yml build
+docker-compose -f docker-compose.prod.yml build   # Build the Docker image
 
-# Start services in background
-docker-compose -f docker-compose.prod.yml up -d
+docker-compose -f docker-compose.prod.yml up -d   # Start services in background
 
-# View logs
-docker-compose -f docker-compose.prod.yml logs -f
+docker-compose -f docker-compose.prod.yml logs -f # View logs
 ```
 
 ### 4. Run Database Migrations

@@ -5,14 +5,13 @@ services:
       dockerfile: Dockerfile
     container_name: slidertv-app
     restart: unless-stopped
+    env_file: .env
     environment:
       NODE_ENV: production
       PORT: 3333
       HOST: 0.0.0.0
       TZ: UTC
       LOG_LEVEL: info
-      # Load other env vars from .env.prod file
-      FILE: .env.prod
     volumes:
       # Persist storage directory (uploads, slides, database)
       - storage_volume:/app/storage

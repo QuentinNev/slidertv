@@ -1,9 +1,19 @@
 {
-  "extends": "@adonisjs/tsconfig/tsconfig.app.json",
+  "extends": "@adonisjs/tsconfig/tsconfig.client.json",
   "compilerOptions": {
-    "rootDir": "./",
-    "jsx": "react",
-    "outDir": "./build"
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "paths": {
+      "~/*": ["./*"],
+      "@generated/*": ["../.adonisjs/client/*"]
+    }
   },
-  "references": [{ "path": "./tsconfig.inertia.json" }]
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../.adonisjs/client/**/*.ts",
+    "../.adonisjs/server/**/*.ts"
+  ]
 }
