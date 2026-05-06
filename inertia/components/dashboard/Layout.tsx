@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import type { Data } from '@generated/data'
 import type { DashboardSection, Slide } from '~/types'
+import SortableSlideList from './SortableSlideList'
 
 const NAV_ITEMS: { id: DashboardSection; label: string }[] = [
   { id: 'colors', label: 'Palette de couleurs' },
@@ -113,17 +114,12 @@ export default function Layout({
               {/* Divider only shown if there are existing slides to separate create button from list */}
               {slides.length > 0 && <div className="db-slides-divider" />}
 
-              {/* Lists all slides with visual indicator for currently selected slide */}
-              {slides.map((slide) => (
-                <button
-                  key={slide.id}
-                  type="button"
-                  className={`db-slide-item${selectedSlideId === slide.id ? ' active' : ''}`}
-                  onClick={() => onSlideSelect?.(slide)}
-                >
-                  {slide.title || 'Sans titre'}
-                </button>
-              ))}
+              {/* Lists all slides with drag-and-drop reordering support */}
+              <SortableSlideList
+                slides={slides}
+                selectedSlideId={selectedSlideId}
+                onSlideSelect={onSlideSelect}
+              />
             </div>
           </div>
         </nav>
