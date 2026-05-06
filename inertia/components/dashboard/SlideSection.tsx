@@ -12,7 +12,7 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
     media: null as File | null,
   })
 
-  const [preview, setPreview] = useState<string | null>(null)
+  const [preview, setPreview] = useState<{ url: string; type: string } | null>(null)
 
   useEffect(() => {
     form.setData({
@@ -45,18 +45,14 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
 
     form.setData('media', file)
 
-    if (file.type.startsWith('image/')) {
-      const url = URL.createObjectURL(file)
-      setPreview(url)
-    } else {
-      setPreview(null)
-    }
+    const url = URL.createObjectURL(file)
+    setPreview({ url, type: file.type })
   }
 
   useEffect(() => {
     return () => {
       if (preview) {
-        URL.revokeObjectURL(preview)
+        URL.revokeObjectURL(preview.url)
       }
     }
   }, [preview])
@@ -131,7 +127,14 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
         {/* PREVIEW */}
         {preview && (
           <div className="db-preview">
-            <img src={preview} alt="preview" />
+            <p>Aperçu :</p>
+            {preview.type.startsWith('image/') && <img src={preview.url} alt="preview" />}
+            {preview.type.startsWith('video/') && <video src={preview.url} controls />}
+            {preview.type === 'application/pdf' && (
+              <a href={preview.url} target="_blank" rel="noreferrer">
+                Voir PDF
+              </a>
+            )}
           </div>
         )}
 
