@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import type { Slide } from '~/types'
 
+// Default slide shown if no slides exist (e.g., first load of empty tenant)
 const FALLBACK_SLIDES: Slide[] = [
   {
     id: -1,
-    title: 'Bienvenue',
+    title: 'Welcome',
     content: '',
     duration: 6,
     order: -1,
@@ -20,7 +21,9 @@ export default function Slider({ slides = [] }: { slides?: Slide[] }) {
     if (displaySlides.length === 0) return
 
     const currentSlide = displaySlides[idx]
+    // Each slide can have its own duration; defaults to 6 seconds
     const duration = currentSlide.duration || 6
+    // Recreates interval on each slide change to respect its specific duration
     const t = setInterval(() => setIdx((i) => (i + 1) % displaySlides.length), duration * 1000)
     return () => clearInterval(t)
   }, [idx, displaySlides])

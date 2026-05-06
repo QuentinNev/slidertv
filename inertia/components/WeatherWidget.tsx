@@ -15,18 +15,20 @@ export interface WeatherData {
   forecast: DayForecast[]
 }
 
+// Converts WMO weather codes (Open-Meteo standard) to display icons and labels
+// WMO codes: 0-3 clear/cloudy, 45-48 fog, 51-55 drizzle, 61-65 rain, 71-77 snow, 80-82 showers, 85-86 snow showers, 95+ thunderstorm
 function decodeWeather(code: number): { icon: string; label: string } {
-  if (code === 0) return { icon: '☀️', label: 'Ciel dégagé' }
-  if (code === 1) return { icon: '🌤️', label: 'Principalement dégagé' }
+  if (code === 0) return { icon: '☀️ ', label: 'Ciel dégagé' }
+  if (code === 1) return { icon: '🌤️ ', label: 'Principalement dégagé' }
   if (code === 2) return { icon: '⛅', label: 'Partiellement nuageux' }
-  if (code === 3) return { icon: '☁️', label: 'Couvert' }
-  if (code <= 48) return { icon: '🌫️', label: 'Brouillard' }
-  if (code <= 55) return { icon: '🌦️', label: 'Bruine' }
-  if (code <= 65) return { icon: '🌧️', label: 'Pluie' }
-  if (code <= 77) return { icon: '❄️', label: 'Neige' }
-  if (code <= 82) return { icon: '🌦️', label: 'Averses' }
-  if (code <= 86) return { icon: '🌨️', label: 'Averses de neige' }
-  return { icon: '⛈️', label: 'Orage' }
+  if (code === 3) return { icon: '☁️ ', label: 'Couvert' }
+  if (code <= 48) return { icon: '🌫️ ', label: 'Brouillard' }
+  if (code <= 55) return { icon: '🌦️ ', label: 'Bruine' }
+  if (code <= 65) return { icon: '🌧️ ', label: 'Pluie' }
+  if (code <= 77) return { icon: '❄️ ', label: 'Neige' }
+  if (code <= 82) return { icon: '🌦️ ', label: 'Averses' }
+  if (code <= 86) return { icon: '🌨️ ', label: 'Averses de neige' }
+  return { icon: '⛈️ ', label: 'Orage' }
 }
 
 function dayLabel(dateStr: string) {
