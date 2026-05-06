@@ -123,8 +123,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['update']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/app_setting_controller').default['updateLocation']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/app_setting_controller').default['updateLocation']>>>
     }
   }
   'dashboard.colors': {
@@ -135,8 +135,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['updateColors']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboard_controller').default['updateColors']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/app_setting_controller').default['updateColors']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/app_setting_controller').default['updateColors']>>>
     }
   }
   'slide.show': {

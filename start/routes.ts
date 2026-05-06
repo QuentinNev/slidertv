@@ -54,8 +54,8 @@ router
 router
   .group(() => {
     router.get('dashboard', [controllers.Dashboard, 'index']).as('dashboard')
-    router.post('dashboard', [controllers.Dashboard, 'update']).as('dashboard.update')
-    router.post('dashboard/colors', [controllers.Dashboard, 'updateColors']).as('dashboard.colors')
+    router.post('dashboard', [controllers.AppSetting, 'updateLocation']).as('dashboard.update')
+    router.post('dashboard/colors', [controllers.AppSetting, 'updateColors']).as('dashboard.colors')
 
     router.get('slide/:id', [controllers.Slide, 'show']).as('slide.show')
     router.post('slide', [controllers.Slide, 'updateSlide']).as('slide.create')
