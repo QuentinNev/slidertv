@@ -11,6 +11,10 @@ export default class SessionController {
     const user = await User.verifyCredentials(email, password)
 
     await auth.use('web').login(user)
+
+    if (user.role === 'admin') {
+      return response.redirect().toRoute('admin')
+    }
     response.redirect().toRoute('dashboard')
   }
 
