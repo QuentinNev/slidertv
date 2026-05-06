@@ -1,3 +1,4 @@
+// Caches weather data for 10 minutes to avoid excessive API calls
 const TTL_MS = 10 * 60 * 1000
 
 export interface DayForecast {
@@ -80,6 +81,7 @@ class WeatherService {
       windspeed: c.windspeed_10m,
       humidity: c.relativehumidity_2m,
       fetchedAt: c.time,
+      // Shows next 2 days (indices 1 and 2), not current day (index 0) which is in current
       forecast: [1, 2].map((i) => ({
         date: d.time[i],
         weathercode: d.weathercode[i],
