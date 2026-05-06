@@ -104,7 +104,18 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
       <form onSubmit={submit} className="db-form">
         {/* TITLE */}
         <div className="db-field">
-          <label>Titre</label>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+            <label style={{ marginBottom: 0 }}>Titre</label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 0, fontSize: '14px', fontWeight: 500 }}>
+              <input
+                type="checkbox"
+                checked={form.data.isActive}
+                onChange={(e) => form.setData('isActive', e.target.checked)}
+                style={{ width: 'auto', height: 'auto' }}
+              />
+              Visible
+            </label>
+          </div>
           <input
             type="text"
             value={form.data.title}
@@ -144,30 +155,15 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
           </div>
         </div>
 
-        {/* DURATION & VISIBLE */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <div className="db-field">
-            <label>Durée (sec)</label>
-            <input
-              type="number"
-              value={form.data.duration}
-              onChange={(e) => form.setData('duration', Number(e.target.value))}
-            />
-            {form.errors.duration && <div className="db-error">{form.errors.duration}</div>}
-          </div>
-
-          <div className="db-field">
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 0 }}>
-              <input
-                type="checkbox"
-                checked={form.data.isActive}
-                onChange={(e) => form.setData('isActive', e.target.checked)}
-                style={{ width: 'auto', height: 'auto' }}
-              />
-              Visible
-            </label>
-            {form.errors.isActive && <div className="db-error">{form.errors.isActive}</div>}
-          </div>
+        {/* DURATION */}
+        <div className="db-field">
+          <label>Durée (sec)</label>
+          <input
+            type="number"
+            value={form.data.duration}
+            onChange={(e) => form.setData('duration', Number(e.target.value))}
+          />
+          {form.errors.duration && <div className="db-error">{form.errors.duration}</div>}
         </div>
 
         {/* MEDIA WITH PREVIEW */}
