@@ -43,12 +43,11 @@ export default function AdminIndex({ tenants }: { tenants: Tenant[] }) {
         </div>
       </header>
 
-      <div style={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
+      <div style={{ padding: '40px', maxWidth: '100%', width: '100%', margin: '0 auto' }}>
         <div className="db-card" style={{ marginBottom: '32px' }}>
           <h2>Créer un tenant</h2>
           <form onSubmit={handleSubmit} className="db-form" style={{ marginTop: '16px' }}>
             <div className="db-field">
-              <label>Nom</label>
               <input
                 type="text"
                 value={createForm.data.name}
@@ -58,7 +57,6 @@ export default function AdminIndex({ tenants }: { tenants: Tenant[] }) {
               {createForm.errors.name && <div className="db-error">{createForm.errors.name}</div>}
             </div>
             <div className="db-field">
-              <label>Slug</label>
               <input
                 type="text"
                 value={createForm.data.slug}
@@ -68,7 +66,6 @@ export default function AdminIndex({ tenants }: { tenants: Tenant[] }) {
               {createForm.errors.slug && <div className="db-error">{createForm.errors.slug}</div>}
             </div>
             <div className="db-field">
-              <label>Email du compte</label>
               <input
                 type="email"
                 value={createForm.data.email}
