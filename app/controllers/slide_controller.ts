@@ -127,7 +127,10 @@ export default class SlideController {
       await media.moveToDisk(key)
     }
 
-    // Stores the path and MIME type separately; mediaName is the original filename for display purposes
+    if (isUpdate && slide.media) {
+      await fs.rm(path.join('storage', slide.media), { force: true })
+    }
+
     slide.media = key
     slide.mediaType = finalMime
     slide.mediaName = media.clientName
