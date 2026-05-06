@@ -1,6 +1,6 @@
 import string from '@adonisjs/core/helpers/string'
 import type { HttpContext } from '@adonisjs/core/http'
-import { updateSlideValidator } from '#validators/slide'
+import { updateSlideValidator, reorderSlidesValidator } from '#validators/slide'
 import Slide from '#models/slide'
 import Tenant from '#models/tenant'
 import { convertPdfToImage } from '#services/pdf_converter'
@@ -133,5 +133,21 @@ export default class SlideController {
 
     session.flash('success', isUpdate ? 'Slide updated successfully!' : 'Slide created successfully!')
     return response.redirect().toRoute('dashboard')
+  }
+
+  async reorder({ request, response, auth }: HttpContext) {
+    const { orders } = await request.validateUsing(reorderSlidesValidator)
+    const tenantId = auth.user!.tenantId!
+
+    await Promise.all(
+      orders.map(({ id, order }) =>
+        Slide.query()
+          .where('id', id)
+          .where('tenantId', tenantId)
+          .update({ order })
+      )
+    )
+
+    return response.ok({ success: true })
   }
 }
