@@ -27,10 +27,12 @@ export class AppSettingSchema extends BaseModel {
 }
 
 export class SlideSchema extends BaseModel {
-  static $columns = ['content', 'createdAt', 'duration', 'id', 'isActive', 'media', 'mediaName', 'mediaType', 'order', 'tenantId', 'title', 'updatedAt'] as const
+  static $columns = ['content', 'contentColor', 'createdAt', 'duration', 'id', 'isActive', 'media', 'mediaName', 'mediaType', 'order', 'tenantId', 'title', 'titleColor', 'updatedAt'] as const
   $columns = SlideSchema.$columns
   @column()
   declare content: string
+  @column()
+  declare contentColor: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
@@ -51,6 +53,8 @@ export class SlideSchema extends BaseModel {
   declare tenantId: number | null
   @column()
   declare title: string
+  @column()
+  declare titleColor: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

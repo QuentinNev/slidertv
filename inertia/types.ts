@@ -28,6 +28,8 @@ export interface Slide {
   id: number
   title: string
   content: string
+  titleColor?: string | null
+  contentColor?: string | null
   order: number
   duration: number
   isActive: boolean

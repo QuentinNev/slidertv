@@ -34,6 +34,12 @@ export default class Slide extends BaseModel {
   @column()
   declare isActive: boolean
 
+  @column({ columnName: 'title_color' })
+  declare titleColor: string | null
+
+  @column({ columnName: 'content_color' })
+  declare contentColor: string | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
