@@ -402,6 +402,10 @@ button:hover {
   padding-left: 5px;
 }
 
+.db-media-input {
+  height: 100%;
+}
+
 .db-coords-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -632,7 +636,7 @@ button:hover {
   position: fixed;
   inset: 0;
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 200px 1fr;
   grid-template-rows: 1fr 64px;
   grid-template-areas:
     'left main'
