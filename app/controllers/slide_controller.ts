@@ -159,4 +159,20 @@ export default class SlideController {
     if (tenant) eventBus.emit(`settings:updated:${tenant.slug}`)
     return response.redirect().toRoute('dashboard')
   }
+
+  async destroy({ params, response, session, auth }: HttpContext) {
+    const tenantId = auth.user!.tenantId!
+    const slide = await Slide.query().where('id', params.id).where('tenantId', tenantId).firstOrFail()
+
+    if (slide.media) {
+      await fs.rm(path.join('storage', slide.media), { force: true })
+    }
+
+    await slide.delete()
+
+    const tenant = await Tenant.find(tenantId)
+    if (tenant) eventBus.emit(`settings:updated:${tenant.slug}`)
+    session.flash('success', 'Slide supprimée')
+    return response.redirect().toRoute('dashboard')
+  }
 }
