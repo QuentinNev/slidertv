@@ -1,5 +1,5 @@
 import { useForm, usePage } from '@inertiajs/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import type { Data } from '@generated/data'
 import type { DashboardSection, Slide } from '~/types'
@@ -29,7 +29,13 @@ export default function Layout({
   const { props } = usePage<Data.SharedProps>()
   const user = props.user
   const logoutForm = useForm({})
-  const [slideMenuOpen, setSlideMenuOpen] = useState(false)
+  const [slideMenuOpen, setSlideMenuOpen] = useState(section === 'slide')
+
+  useEffect(() => {
+    if (section === 'slide') {
+      setSlideMenuOpen(true)
+    }
+  }, [section])
 
   return (
     <div className="db-layout">
@@ -85,10 +91,7 @@ export default function Layout({
                 <button
                   type="button"
                   className="db-slide-item create"
-                  onClick={() => {
-                    onCreateSlide?.()
-                    setSlideMenuOpen(false)
-                  }}
+                  onClick={() => onCreateSlide?.()}
                 >
                   + Créer une slide
                 </button>
@@ -100,10 +103,7 @@ export default function Layout({
                     key={slide.id}
                     type="button"
                     className={`db-slide-item${selectedSlideId === slide.id ? ' active' : ''}`}
-                    onClick={() => {
-                      onSlideSelect?.(slide)
-                      setSlideMenuOpen(false)
-                    }}
+                    onClick={() => onSlideSelect?.(slide)}
                   >
                     {slide.title || 'Sans titre'}
                   </button>
