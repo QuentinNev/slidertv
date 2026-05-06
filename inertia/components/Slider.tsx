@@ -43,7 +43,7 @@ export default function Slider({ slides = [] }: { slides?: Slide[] }) {
             <img src={slide.mediaName} alt={slide.title} className="tv-slider-media tv-slider-image" />
           )}
           {slide.mediaType?.startsWith('video/') && (
-            <video src={slide.mediaName} autoPlay muted className="tv-slider-media tv-slider-video" />
+            <video src={slide.mediaName} autoPlay loop muted className="tv-slider-media tv-slider-video" />
           )}
         </>
       )}
