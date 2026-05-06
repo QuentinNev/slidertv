@@ -102,13 +102,13 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
         <h2 style={{ marginBottom: 0 }}>{slide ? 'Modifier la slide' : 'Créer une slide'}</h2>
         <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}>
+          Visible
           <input
             type="checkbox"
             checked={form.data.isActive}
             onChange={(e) => form.setData('isActive', e.target.checked)}
             style={{ width: 'auto', height: 'auto' }}
           />
-          Visible
         </label>
       </div>
 
@@ -222,11 +222,7 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
                   <p style={{ marginTop: 0 }}>Aperçu :</p>
                   {preview.type.startsWith('image/') && <img src={preview.url} alt="preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
                   {preview.type.startsWith('video/') && <video src={preview.url} controls style={{ maxWidth: '100%', maxHeight: '300px' }} />}
-                  {preview.type === 'application/pdf' && (
-                    <a href={preview.url} target="_blank" rel="noreferrer">
-                      Voir PDF
-                    </a>
-                  )}
+                  {preview.type === 'application/pdf' && <img src={preview.url} alt="preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
                 </div>
               )}
 
