@@ -48,6 +48,7 @@ router
     router.get('admin', [controllers.Admin, 'index']).as('admin')
     router.post('admin/tenants', [controllers.Admin, 'store']).as('admin.tenants.store')
     router.delete('admin/tenants/:id', [controllers.Admin, 'destroy']).as('admin.tenants.destroy')
+    router.post('admin/tenants/:id/reset-password', [controllers.Admin, 'resetPassword']).as('admin.tenants.reset-password')
   })
   .use(middleware.admin())
 

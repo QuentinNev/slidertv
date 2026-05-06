@@ -55,4 +55,16 @@ export default class AdminController {
     session.flash('success', `Tenant "${tenant.name}" supprimé`)
     return response.redirect().toRoute('admin')
   }
+
+  async resetPassword({ params, response, session }: HttpContext) {
+    const tenant = await Tenant.findOrFail(params.id)
+    const user = await User.query().where('tenantId', tenant.id).firstOrFail()
+
+    const password = string.random(16)
+    user.password = await hash.make(password)
+    await user.save()
+
+    session.flash('newTenant', { email: user.email, password, name: tenant.name })
+    return response.redirect().toRoute('admin')
+  }
 }
