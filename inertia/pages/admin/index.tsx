@@ -45,6 +45,7 @@ export default function AdminIndex({ tenants, newTenant: initialNewTenant }: { t
   })
 
   const deleteForm = useForm({})
+  const resetForm = useForm({})
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -132,22 +133,30 @@ export default function AdminIndex({ tenants, newTenant: initialNewTenant }: { t
                         /{tenant.slug} ↗
                       </a>
                     </td>
-                    <td style={{ padding: '12px 0', textAlign: 'right' }}>
-                      <form
-                        onSubmit={(e) => {
+                    <td style={{ padding: '12px 0', textAlign: 'right', display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (confirm(`Réinitialiser le mot de passe de "${tenant.name}" ?`)) {
+                            resetForm.post(`/admin/tenants/${tenant.id}/reset-password`)
+                          }
+                        }}
+                        style={{ width: 'auto', padding: '4px 12px', fontSize: '13px', background: 'transparent', color: 'var(--gray-7)', border: '1px solid var(--gray-4)', cursor: 'pointer' }}
+                      >
+                        Reset mdp
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
                           e.preventDefault()
                           if (confirm(`Supprimer "${tenant.name}" ?`)) {
                             deleteForm.delete(`/admin/tenants/${tenant.id}`)
                           }
                         }}
+                        style={{ width: 'auto', padding: '4px 12px', fontSize: '13px', background: 'transparent', color: '#fb2c36', border: '1px solid #fb2c36', cursor: 'pointer' }}
                       >
-                        <button
-                          type="submit"
-                          style={{ width: 'auto', padding: '4px 12px', fontSize: '13px', background: 'transparent', color: '#fb2c36', border: '1px solid #fb2c36', cursor: 'pointer' }}
-                        >
-                          Supprimer
-                        </button>
-                      </form>
+                        Supprimer
+                      </button>
                     </td>
                   </tr>
                 ))}
