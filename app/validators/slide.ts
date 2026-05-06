@@ -31,6 +31,6 @@ export const reorderSlidesValidator = vine.compile(
         id: vine.number().positive(),
         order: vine.number().min(0),
       })
-    ),
+    ).minLength(1),
   })
 )
