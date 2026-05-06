@@ -116,45 +116,42 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
           {form.errors.isActive && <div className="db-error">{form.errors.isActive}</div>}
         </div>
 
-        {/* MEDIA */}
-        <div className="db-field">
-          <label>Média</label>
+        {/* MEDIA WITH PREVIEW */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'start' }}>
+          <div className="db-field">
+            <label>Média</label>
+            <input type="file" onChange={handleFileChange} accept="image/*,video/*,application/pdf" />
+            {form.errors.media && <div className="db-error">{form.errors.media}</div>}
+          </div>
 
-          <input type="file" onChange={handleFileChange} accept="image/*,video/*,application/pdf" />
+          <div style={{ minHeight: '200px' }}>
+            {preview && (
+              <div className="db-preview">
+                <p style={{ marginTop: 0 }}>Aperçu :</p>
+                {preview.type.startsWith('image/') && <img src={preview.url} alt="preview" style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
+                {preview.type.startsWith('video/') && <video src={preview.url} controls style={{ maxWidth: '100%', maxHeight: '300px' }} />}
+                {preview.type === 'application/pdf' && (
+                  <a href={preview.url} target="_blank" rel="noreferrer">
+                    Voir PDF
+                  </a>
+                )}
+              </div>
+            )}
 
-          {form.errors.media && <div className="db-error">{form.errors.media}</div>}
+            {!preview && slide?.media && (
+              <div className="db-preview">
+                <p style={{ marginTop: 0 }}>Média actuel :</p>
+                {slide.mediaType?.startsWith('image/') && <img src={`/storage/${slide.media}`} style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }} />}
+                {slide.mediaType?.startsWith('video/') && <video src={`/storage/${slide.media}`} controls style={{ maxWidth: '100%', maxHeight: '300px' }} />}
+                {slide.mediaType === 'application/pdf' && (
+                  <a href={`/storage/${slide.media}`} target="_blank">
+                    Voir PDF
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* PREVIEW */}
-        {preview && (
-          <div className="db-preview">
-            <p>Aperçu :</p>
-            {preview.type.startsWith('image/') && <img src={preview.url} alt="preview" />}
-            {preview.type.startsWith('video/') && <video src={preview.url} controls />}
-            {preview.type === 'application/pdf' && (
-              <a href={preview.url} target="_blank" rel="noreferrer">
-                Voir PDF
-              </a>
-            )}
-          </div>
-        )}
-
-        {/* EXISTING MEDIA */}
-        {!preview && slide?.mediaName && (
-          <div className="db-preview">
-            <p>Média actuel :</p>
-
-            {slide.mediaType?.startsWith('image/') && <img src={slide.mediaName} />}
-
-            {slide.mediaType?.startsWith('video/') && <video src={slide.mediaName} controls />}
-
-            {slide.mediaType === 'application/pdf' && (
-              <a href={slide.mediaName} target="_blank">
-                Voir PDF
-              </a>
-            )}
-          </div>
-        )}
 
         {/* SUBMIT */}
         <button type="submit" disabled={form.processing}>

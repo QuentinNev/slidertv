@@ -30,6 +30,7 @@ export interface Slide {
   order: number
   duration: number
   isActive: boolean
+  media?: string
   mediaName?: string
   mediaType?: string
 }
