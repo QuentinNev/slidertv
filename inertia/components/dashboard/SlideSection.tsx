@@ -1,11 +1,14 @@
 import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
+import ColorPicker from '~/components/ColorPicker'
 import type { Slide } from '~/types'
 
 export default function SlideSection({ slide }: { slide?: Slide }) {
   const form = useForm({
     title: slide?.title ?? '',
     content: slide?.content ?? '',
+    titleColor: slide?.titleColor ?? '#ffffff',
+    contentColor: slide?.contentColor ?? '#ffffff',
     order: slide?.order ?? 0,
     duration: slide?.duration ?? 30,
     isActive: slide?.isActive ?? true,
@@ -19,6 +22,8 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
     form.setData({
       title: slide?.title ?? '',
       content: slide?.content ?? '',
+      titleColor: slide?.titleColor ?? '#ffffff',
+      contentColor: slide?.contentColor ?? '#ffffff',
       order: slide?.order ?? 0,
       duration: slide?.duration ?? 30,
       isActive: slide?.isActive ?? true,
@@ -116,6 +121,27 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
             onChange={(e) => form.setData('content', e.target.value)}
           />
           {form.errors.content && <div className="db-error">{form.errors.content}</div>}
+        </div>
+
+        {/* COLORS */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div className="db-field">
+            <label className="db-color-label">Couleur du titre</label>
+            <ColorPicker
+              value={form.data.titleColor}
+              onChange={(hex) => form.setData('titleColor', hex)}
+            />
+            {form.errors.titleColor && <div className="db-error">{form.errors.titleColor}</div>}
+          </div>
+
+          <div className="db-field">
+            <label className="db-color-label">Couleur du texte</label>
+            <ColorPicker
+              value={form.data.contentColor}
+              onChange={(hex) => form.setData('contentColor', hex)}
+            />
+            {form.errors.contentColor && <div className="db-error">{form.errors.contentColor}</div>}
+          </div>
         </div>
 
         {/* DURATION & VISIBLE */}

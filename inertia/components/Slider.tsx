@@ -49,8 +49,14 @@ export default function Slider({ slides = [] }: { slides?: Slide[] }) {
       )}
 
       <div className="tv-slider-overlay">
-        <div className="tv-slider-title">{slide.title}</div>
-        {slide.content && <div className="tv-slider-content">{slide.content}</div>}
+        <div className="tv-slider-title" style={{ color: slide.titleColor ?? 'rgba(255, 255, 255, 0.9)' }}>
+          {slide.title}
+        </div>
+        {slide.content && (
+          <div className="tv-slider-content" style={{ color: slide.contentColor ?? 'rgba(255, 255, 255, 0.7)' }}>
+            {slide.content}
+          </div>
+        )}
       </div>
 
       <div className="tv-slider-dots">
