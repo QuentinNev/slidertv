@@ -90,6 +90,12 @@ const routes = {
     tokens: [{"old":"/slide/:id","type":0,"val":"slide","end":""},{"old":"/slide/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['slide.update']['types'],
   },
+  'slides.reorder': {
+    methods: ["PATCH"],
+    pattern: '/slides/reorder',
+    tokens: [{"old":"/slides/reorder","type":0,"val":"slides","end":""},{"old":"/slides/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['slides.reorder']['types'],
+  },
   'events': {
     methods: ["GET","HEAD"],
     pattern: '/events',

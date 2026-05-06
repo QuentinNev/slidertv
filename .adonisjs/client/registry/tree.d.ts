@@ -28,6 +28,9 @@ export interface ApiDefinition {
     create: typeof routes['slide.create']
     update: typeof routes['slide.update']
   }
+  slides: {
+    reorder: typeof routes['slides.reorder']
+  }
   events: typeof routes['events']
   tenant: {
     home: typeof routes['tenant.home']

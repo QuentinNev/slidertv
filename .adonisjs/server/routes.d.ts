@@ -18,6 +18,7 @@ export type ScannedRoutes = {
     'slide.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'slide.create': { paramsTuple?: []; params?: {} }
     'slide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'slides.reorder': { paramsTuple?: []; params?: {} }
     'events': { paramsTuple?: []; params?: {} }
     'tenant.home': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'tenant.events': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
@@ -57,6 +58,9 @@ export type ScannedRoutes = {
   }
   PUT: {
     'slide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+  }
+  PATCH: {
+    'slides.reorder': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

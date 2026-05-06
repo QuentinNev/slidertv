@@ -175,6 +175,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['updateSlide']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'slides.reorder': {
+    methods: ["PATCH"]
+    pattern: '/slides/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/slide').reorderSlidesValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/slide').reorderSlidesValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['reorder']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'events': {
     methods: ["GET","HEAD"]
     pattern: '/events'
