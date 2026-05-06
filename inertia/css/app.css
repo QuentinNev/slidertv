@@ -479,6 +479,84 @@ button:hover {
   max-height: 300px;
 }
 
+.db-nav-group {
+  position: relative;
+}
+
+.db-nav-slides {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 12px;
+}
+
+.db-chevron {
+  display: inline-block;
+  transition: transform 0.2s;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.db-chevron.open {
+  transform: rotate(90deg);
+}
+
+.db-slides-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--gray-3);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.db-slide-item {
+  all: unset;
+  display: block;
+  padding: 10px 24px;
+  font-size: 14px;
+  color: var(--gray-7);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  text-align: left;
+  transition:
+    color 0.1s,
+    border-color 0.1s,
+    background 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.db-slide-item:hover {
+  color: var(--gray-12);
+  background: var(--gray-1);
+}
+
+.db-slide-item.active {
+  color: var(--gray-12);
+  border-left-color: var(--gray-12);
+  background: var(--gray-2);
+}
+
+.db-slide-item.create {
+  font-weight: 500;
+  color: var(--blue-6, #1971c2);
+}
+
+.db-slide-item.create:hover {
+  background: var(--blue-0, #e7f5ff);
+}
+
+.db-slides-divider {
+  height: 1px;
+  background: var(--gray-2);
+}
+
 /* ── Color Picker Field ─────────────────────────────────── */
 .color-picker-field {
   position: relative;

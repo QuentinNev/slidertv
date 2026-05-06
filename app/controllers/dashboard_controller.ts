@@ -3,6 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import weatherService from '#services/weather_service'
 import WeatherLocation from '#models/weather_location'
 import AppSetting from '#models/app_setting'
+import Slide from '#models/slide'
 import eventBus from '#services/event_bus'
 
 const locationValidator = vine.compile(
@@ -24,8 +25,16 @@ const colorsValidator = vine.compile(
 
 export default class DashboardController {
   async index({ inertia }: HttpContext) {
-    const [location, colors] = await Promise.all([WeatherLocation.first(), AppSetting.first()])
-    return inertia.render('dashboard', { location: location ?? null, colors: colors ?? null })
+    const [location, colors, slides] = await Promise.all([
+      WeatherLocation.first(),
+      AppSetting.first(),
+      Slide.query().orderBy('order', 'asc'),
+    ])
+    return inertia.render('dashboard', {
+      location: location ?? null,
+      colors: colors ?? null,
+      slides: slides,
+    })
   }
 
   async update({ request, response, session }: HttpContext) {

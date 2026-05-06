@@ -14,6 +14,18 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
 
   const [preview, setPreview] = useState<string | null>(null)
 
+  useEffect(() => {
+    form.setData({
+      title: slide?.title ?? '',
+      content: slide?.content ?? '',
+      order: slide?.order ?? 0,
+      duration: slide?.duration ?? 30,
+      isActive: slide?.isActive ?? true,
+      media: null,
+    })
+    setPreview(null)
+  }, [slide?.id])
+
   function submit(e: React.FormEvent) {
     e.preventDefault()
 
