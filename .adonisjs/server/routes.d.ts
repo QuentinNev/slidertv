@@ -19,6 +19,7 @@ export type ScannedRoutes = {
     'slide.create': { paramsTuple?: []; params?: {} }
     'slide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'slides.reorder': { paramsTuple?: []; params?: {} }
+    'slide.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'events': { paramsTuple?: []; params?: {} }
     'tenant.home': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'tenant.events': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
@@ -55,6 +56,7 @@ export type ScannedRoutes = {
   }
   DELETE: {
     'admin.tenants.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'slide.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PUT: {
     'slide.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

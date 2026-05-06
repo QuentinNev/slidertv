@@ -187,6 +187,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['reorder']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'slide.destroy': {
+    methods: ["DELETE"]
+    pattern: '/slide/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/slide_controller').default['destroy']>>>
+    }
+  }
   'events': {
     methods: ["GET","HEAD"]
     pattern: '/events'

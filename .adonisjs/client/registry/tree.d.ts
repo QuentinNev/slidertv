@@ -27,6 +27,7 @@ export interface ApiDefinition {
     show: typeof routes['slide.show']
     create: typeof routes['slide.create']
     update: typeof routes['slide.update']
+    destroy: typeof routes['slide.destroy']
   }
   slides: {
     reorder: typeof routes['slides.reorder']

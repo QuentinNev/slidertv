@@ -96,6 +96,12 @@ const routes = {
     tokens: [{"old":"/slides/reorder","type":0,"val":"slides","end":""},{"old":"/slides/reorder","type":0,"val":"reorder","end":""}],
     types: placeholder as Registry['slides.reorder']['types'],
   },
+  'slide.destroy': {
+    methods: ["DELETE"],
+    pattern: '/slide/:id',
+    tokens: [{"old":"/slide/:id","type":0,"val":"slide","end":""},{"old":"/slide/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['slide.destroy']['types'],
+  },
   'events': {
     methods: ["GET","HEAD"],
     pattern: '/events',
