@@ -24,9 +24,24 @@ export default class SlideController {
     })
   }
 
-  async updateSlide({ request, auth, response, session }: HttpContext) {
-    const slide = await Slide.findOrFail(auth.getUserOrFail().id)
-    const { media } = await request.validateUsing(updateSlideValidator)
+  async updateSlide({ request, response, session }: HttpContext) {
+    const { media, ...data } = await request.validateUsing(updateSlideValidator)
+    const isUpdate = request.method() === 'PUT'
+    const slideId = isUpdate ? request.param('id') : null
+
+    const slide = isUpdate ? await Slide.findOrFail(slideId) : new Slide()
+
+    if (!isUpdate) {
+      slide.fill(data)
+    } else {
+      slide.merge(data)
+    }
+
+    if (!media) {
+      await slide.save()
+      session.flash('success', isUpdate ? 'Slide updated successfully!' : 'Slide created successfully!')
+      return response.redirect().toRoute('dashboard')
+    }
 
     const mime = media.headers['content-type']
 
@@ -55,7 +70,7 @@ export default class SlideController {
     slide.mediaName = media.clientName
     await slide.save()
 
-    session.flash('success', 'Media updated successfully!')
-    return response.redirect().back()
+    session.flash('success', isUpdate ? 'Slide updated successfully!' : 'Slide created successfully!')
+    return response.redirect().toRoute('dashboard')
   }
 }
