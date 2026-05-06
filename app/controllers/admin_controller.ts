@@ -22,9 +22,10 @@ const tenantValidator = vine.compile(
 )
 
 export default class AdminController {
-  async index({ inertia }: HttpContext) {
+  async index({ inertia, session }: HttpContext) {
     const tenants = await Tenant.query().orderBy('created_at', 'desc')
-    return inertia.render('admin/index', { tenants })
+    const newTenant = session.flashMessages.has('newTenant') ? session.flashMessages.get('newTenant') : null
+    return inertia.render('admin/index', { tenants, newTenant })
   }
 
   async store({ request, response, session }: HttpContext) {
@@ -41,6 +42,7 @@ export default class AdminController {
     })
 
     session.flash('success', `Tenant "${name}" créé.`)
+    session.flash('newTenant', { email, password, name })
     return response.redirect().toRoute('admin')
   }
 

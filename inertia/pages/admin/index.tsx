@@ -1,4 +1,6 @@
 import { useForm, usePage } from '@inertiajs/react'
+import { useState, useEffect } from 'react'
+import Modal from '~/components/Modal'
 import type { Data } from '@generated/data'
 
 interface Tenant {
@@ -8,7 +10,31 @@ interface Tenant {
   createdAt: string
 }
 
-export default function AdminIndex({ tenants }: { tenants: Tenant[] }) {
+interface NewTenant {
+  email: string
+  password: string
+  name: string
+}
+
+export default function AdminIndex({ tenants, newTenant: initialNewTenant }: { tenants: Tenant[], newTenant?: NewTenant | string | null }) {
+  const [newTenant, setNewTenant] = useState<NewTenant | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
+
+  useEffect(() => {
+    if (initialNewTenant) {
+      try {
+        const data = typeof initialNewTenant === 'string' ? JSON.parse(initialNewTenant) : initialNewTenant
+        setNewTenant(data)
+      } catch (e) {
+        console.error('[ADMIN] Failed to parse newTenant', e)
+      }
+    }
+  }, [initialNewTenant])
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+  }
+
   const { props } = usePage<Data.SharedProps>()
   const logoutForm = useForm({})
 
@@ -23,7 +49,9 @@ export default function AdminIndex({ tenants }: { tenants: Tenant[] }) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     createForm.post('/admin/tenants', {
-      onSuccess: () => createForm.reset(),
+      onSuccess: () => {
+        createForm.reset()
+      },
     })
   }
 
@@ -128,6 +156,73 @@ export default function AdminIndex({ tenants }: { tenants: Tenant[] }) {
           )}
         </div>
       </div>
+
+      <Modal
+        isOpen={!!newTenant}
+        onClose={() => {
+          setNewTenant(null)
+          setShowPassword(false)
+        }}
+        title={`Tenant créé : ${newTenant?.name}`}
+      >
+        <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+          <p>Partagez ces identifiants avec le tenant :</p>
+          <div style={{ backgroundColor: '#f5f5f5', padding: '16px', borderRadius: '4px', marginBottom: '16px', fontSize: '13px' }}>
+            <div style={{ marginBottom: '12px' }}>
+              <strong>Email</strong>
+              <div style={{ display: 'flex', alignItems: 'center', marginTop: '4px', justifyContent: 'space-between' }}>
+                <div style={{ fontFamily: 'monospace' }}>{newTenant?.email}</div>
+                <div>
+                  <button
+                    onClick={() => copyToClipboard(newTenant?.email || '')}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px', padding: '2px' }}
+                    title="Copier"
+                  >
+                    📋
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <strong>Mot de passe</strong>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginTop: '4px',
+                  cursor: 'pointer',
+                  justifyContent: 'space-between',
+                }}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <div style={{ fontFamily: 'monospace' }}>
+                  {showPassword ? newTenant?.password : '••••••••••••••••'}
+                </div>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: 'var(--gray-6)' }}>
+                    {showPassword ? '👁️' : '👁️‍🗨️'}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      copyToClipboard(newTenant?.password || '')
+                    }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px', padding: '2px' }}
+                    title="Copier"
+                  >
+                    📋
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p style={{ color: 'var(--gray-6)', fontSize: '12px', marginBottom: 0 }}>
+            Les identifiants peuvent être utilisés pour se connecter à /auth/login
+          </p>
+        </div>
+      </Modal>
     </div>
   )
 }
