@@ -18,12 +18,23 @@ export default class HomeController {
       ? await weatherService.get(location.latitude, location.longitude).catch(() => null)
       : null
 
+    const formattedSlides = slides.map((s) => ({
+      id: s.id,
+      title: s.title,
+      content: s.content,
+      duration: s.duration,
+      isActive: s.isActive,
+      order: s.order,
+      mediaName: s.media ? `/storage/${s.media}` : undefined,
+      mediaType: s.mediaType,
+    }))
+
     return inertia.render('home', {
       weather,
       location: location ?? null,
       news,
       colors: colors ?? null,
-      slides,
+      slides: formattedSlides,
     })
   }
 }

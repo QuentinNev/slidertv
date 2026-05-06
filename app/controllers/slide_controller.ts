@@ -19,7 +19,7 @@ export default class SlideController {
         order: s.order,
         duration: s.duration,
         isActive: s.isActive,
-        mediaUrl: s.media ? `/storage/${s.media}` : undefined,
+        mediaName: s.media ? `/storage/${s.media}` : undefined,
       },
     })
   }

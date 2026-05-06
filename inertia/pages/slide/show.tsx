@@ -5,7 +5,7 @@ type Props = {
     content: string
     media: string | null
     mediaType: string | null
-    mediaUrl?: string
+    mediaName?: string
     order: number
     duration: number
     isActive: boolean
@@ -40,18 +40,18 @@ export default function Slide({ slide }: Props) {
         </div>
 
         {/* MEDIA */}
-        {slide.mediaUrl && (
+        {slide.mediaName && (
           <div className="db-card">
             <h2>Média</h2>
 
             {slide.mediaType?.startsWith('image/') && (
-              <img src={slide.mediaUrl} alt="slide media" />
+              <img src={slide.mediaName} alt="slide media" />
             )}
 
-            {slide.mediaType?.startsWith('video/') && <video src={slide.mediaUrl} controls />}
+            {slide.mediaType?.startsWith('video/') && <video src={slide.mediaName} controls />}
 
             {slide.mediaType === 'application/pdf' && (
-              <a href={slide.mediaUrl} target="_blank">
+              <a href={slide.mediaName} target="_blank">
                 Ouvrir le PDF
               </a>
             )}

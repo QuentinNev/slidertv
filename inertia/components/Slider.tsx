@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import type { Slide } from '~/types'
 
-const FALLBACK_SLIDES = [
-  { id: 1, title: 'Bienvenue', content: '', duration: 6 },
-  { id: 2, title: 'SliderTV', content: '', duration: 6 },
-  { id: 3, title: 'Panneau 3', content: '', duration: 6 },
+const FALLBACK_SLIDES: Slide[] = [
+  {
+    id: -1,
+    title: 'Bienvenue',
+    content: '',
+    duration: 6,
+    order: -1,
+    isActive: true,
+  },
 ]
 
 export default function Slider({ slides = [] }: { slides?: Slide[] }) {
@@ -32,8 +37,22 @@ export default function Slider({ slides = [] }: { slides?: Slide[] }) {
 
   return (
     <div className="tv-slider" style={{ background: 'var(--tv-bg)' }}>
-      <div className="tv-slider-title">{slide.title}</div>
-      {slide.content && <div className="tv-slider-content">{slide.content}</div>}
+      {slide.mediaName && (
+        <>
+          {slide.mediaType?.startsWith('image/') && (
+            <img src={slide.mediaName} alt={slide.title} className="tv-slider-media tv-slider-image" />
+          )}
+          {slide.mediaType?.startsWith('video/') && (
+            <video src={slide.mediaName} autoPlay muted className="tv-slider-media tv-slider-video" />
+          )}
+        </>
+      )}
+
+      <div className="tv-slider-overlay">
+        <div className="tv-slider-title">{slide.title}</div>
+        {slide.content && <div className="tv-slider-content">{slide.content}</div>}
+      </div>
+
       <div className="tv-slider-dots">
         {displaySlides.map((_, i) => (
           <button key={i} className={`tv-dot${i === idx ? ' active' : ''}`} onClick={() => setIdx(i)} />

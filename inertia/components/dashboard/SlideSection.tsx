@@ -62,7 +62,7 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
   }, [preview])
 
   useEffect(() => {
-    if (slide?.media_url) {
+    if (slide?.mediaName) {
       setPreview(null)
     }
   }, [slide])
@@ -136,16 +136,16 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
         )}
 
         {/* EXISTING MEDIA */}
-        {!preview && slide?.media_url && (
+        {!preview && slide?.mediaName && (
           <div className="db-preview">
             <p>Média actuel :</p>
 
-            {slide.media_type?.startsWith('image/') && <img src={slide.media_url} />}
+            {slide.mediaType?.startsWith('image/') && <img src={slide.mediaName} />}
 
-            {slide.media_type?.startsWith('video/') && <video src={slide.media_url} controls />}
+            {slide.mediaType?.startsWith('video/') && <video src={slide.mediaName} controls />}
 
-            {slide.media_type === 'application/pdf' && (
-              <a href={slide.media_url} target="_blank">
+            {slide.mediaType === 'application/pdf' && (
+              <a href={slide.mediaName} target="_blank">
                 Voir PDF
               </a>
             )}

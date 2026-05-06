@@ -15,7 +15,7 @@ export interface Location {
   name: string
   latitude: number
   longitude: number
-  media_url?: string
+  mediaName?: string
   $attributes?: {
     name: string
     latitude: number
@@ -30,8 +30,8 @@ export interface Slide {
   order: number
   duration: number
   isActive: boolean
-  media_url?: string
-  media_type?: string
+  mediaName?: string
+  mediaType?: string
 }
 
 export interface GeoResult {
