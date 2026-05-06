@@ -77,7 +77,7 @@ export default function Layout({
               onClick={() => setSlideMenuOpen(!slideMenuOpen)}
             >
               Slides
-              <span className={`db-chevron${slideMenuOpen ? ' open' : ''}`}>›</span>
+              <div className={`db-chevron${slideMenuOpen ? ' open' : ''}`}>›</div>
             </button>
 
             {slideMenuOpen && (

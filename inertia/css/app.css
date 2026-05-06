@@ -316,6 +316,7 @@ button:hover {
 .db-nav-item {
   all: unset;
   display: block;
+  box-sizing: border-box;
   padding: 10px 24px;
   font-size: 14px;
   font-weight: 500;
@@ -481,13 +482,13 @@ button:hover {
 
 .db-nav-group {
   position: relative;
+  justify-content: space-between;
 }
 
 .db-nav-slides {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-right: 12px;
+  width: 100%;
 }
 
 .db-chevron {
@@ -495,6 +496,9 @@ button:hover {
   transition: transform 0.2s;
   font-size: 18px;
   line-height: 1;
+  margin-left: auto;
+  padding-left: 8px;
+  flex-shrink: 0;
 }
 
 .db-chevron.open {
