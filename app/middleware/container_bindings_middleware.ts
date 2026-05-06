@@ -11,6 +11,7 @@ import { type NextFn } from '@adonisjs/core/types/http'
  */
 export default class ContainerBindingsMiddleware {
   handle(ctx: HttpContext, next: NextFn) {
+    // Makes HttpContext and Logger available via dependency injection; allows services to access request context without explicit passing
     ctx.containerResolver.bindValue(HttpContext, ctx)
     ctx.containerResolver.bindValue(Logger, ctx.logger)
 

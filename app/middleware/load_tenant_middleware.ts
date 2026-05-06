@@ -4,6 +4,7 @@ import Tenant from '#models/tenant'
 
 export default class LoadTenantMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
+    // Uses slug rather than ID to make URLs user-friendly (e.g., /hotel-ibis instead of /11)
     const slug = ctx.params.slug
     const tenant = await Tenant.findBy('slug', slug)
 
@@ -11,6 +12,7 @@ export default class LoadTenantMiddleware {
       return ctx.response.status(404).send('Tenant not found')
     }
 
+    // Attaches tenant to HTTP context for access throughout the request
     ctx.tenant = tenant
     return next()
   }

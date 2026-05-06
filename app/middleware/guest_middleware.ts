@@ -20,9 +20,12 @@ export default class GuestMiddleware {
     next: NextFn,
     options: { guards?: (keyof Authenticators)[] } = {}
   ) {
+    // Checks each auth guard (or default guard) to determine if user is logged in
     for (let guard of options.guards || [ctx.auth.defaultGuard]) {
       if (await ctx.auth.use(guard).check()) {
+        // reflash() preserves flash data (success messages, etc) through the redirect
         ctx.session.reflash()
+        // True parameter makes it a permanent redirect (301) instead of temporary (302)
         return ctx.response.redirect(this.redirectTo, true)
       }
     }

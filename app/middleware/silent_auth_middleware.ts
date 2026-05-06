@@ -9,6 +9,7 @@ import type { NextFn } from '@adonisjs/core/types/http'
  */
 export default class SilentAuthMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
+    // check() validates auth state but doesn't redirect; allows pages to load even if user is logged out (e.g., public pages with optional auth)
     await ctx.auth.check()
 
     return next()

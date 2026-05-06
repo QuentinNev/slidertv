@@ -19,6 +19,7 @@ export default class AuthMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
+    // authenticateUsing() combines authentication check and auto-redirect in one call for protected routes
     await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
     return next()
   }

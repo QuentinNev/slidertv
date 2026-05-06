@@ -15,22 +15,18 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
      */
     const { session, auth } = ctx as Partial<HttpContext>
 
-    /**
-     * Fetching the first error from the flash messages
-     */
+    // Extracts flash messages from session; these contain one-time notifications like form success/error messages
     const error = session?.flashMessages.get('error') as string
     const success = session?.flashMessages.get('success') as string
 
-    /**
-     * Data shared with all Inertia pages. Make sure you are using
-     * transformers for rich data-types like Models.
-     */
+    // always() ensures these props are always sent even on soft page reloads (Inertia optimization)
     return {
       errors: ctx.inertia.always(this.getValidationErrors(ctx)),
       flash: ctx.inertia.always({
         error,
         success,
       }),
+      // UserTransformer sanitizes the user object (removes sensitive fields) before sending to frontend
       user: ctx.inertia.always(auth?.user ? UserTransformer.transform(auth.user) : undefined),
     }
   }
