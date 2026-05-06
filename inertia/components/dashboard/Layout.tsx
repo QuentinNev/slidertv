@@ -86,30 +86,28 @@ export default function Layout({
               <div className={`db-chevron${slideMenuOpen ? ' open' : ''}`}>›</div>
             </button>
 
-            {slideMenuOpen && (
-              <div className="db-slides-menu">
+            <div className={`db-slides-menu${slideMenuOpen ? ' open' : ''}`}>
+              <button
+                type="button"
+                className="db-slide-item create"
+                onClick={() => onCreateSlide?.()}
+              >
+                + Créer une slide
+              </button>
+
+              {slides.length > 0 && <div className="db-slides-divider" />}
+
+              {slides.map((slide) => (
                 <button
+                  key={slide.id}
                   type="button"
-                  className="db-slide-item create"
-                  onClick={() => onCreateSlide?.()}
+                  className={`db-slide-item${selectedSlideId === slide.id ? ' active' : ''}`}
+                  onClick={() => onSlideSelect?.(slide)}
                 >
-                  + Créer une slide
+                  {slide.title || 'Sans titre'}
                 </button>
-
-                {slides.length > 0 && <div className="db-slides-divider" />}
-
-                {slides.map((slide) => (
-                  <button
-                    key={slide.id}
-                    type="button"
-                    className={`db-slide-item${selectedSlideId === slide.id ? ' active' : ''}`}
-                    onClick={() => onSlideSelect?.(slide)}
-                  >
-                    {slide.title || 'Sans titre'}
-                  </button>
-                ))}
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         </nav>
 
