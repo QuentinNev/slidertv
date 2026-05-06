@@ -99,23 +99,23 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
 
   return (
     <section className="db-card">
-      <h2>{slide ? 'Modifier la slide' : 'Créer une slide'}</h2>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <h2 style={{ marginBottom: 0 }}>{slide ? 'Modifier la slide' : 'Créer une slide'}</h2>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={form.data.isActive}
+            onChange={(e) => form.setData('isActive', e.target.checked)}
+            style={{ width: 'auto', height: 'auto' }}
+          />
+          Visible
+        </label>
+      </div>
 
       <form onSubmit={submit} className="db-form">
         {/* TITLE */}
         <div className="db-field">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-            <label style={{ marginBottom: 0 }}>Titre</label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 0, fontSize: '14px', fontWeight: 500 }}>
-              <input
-                type="checkbox"
-                checked={form.data.isActive}
-                onChange={(e) => form.setData('isActive', e.target.checked)}
-                style={{ width: 'auto', height: 'auto' }}
-              />
-              Visible
-            </label>
-          </div>
+          <label>Titre</label>
           <input
             type="text"
             value={form.data.title}
