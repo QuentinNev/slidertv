@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react'
+import { useForm, router } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 import ColorPicker from '~/components/ColorPicker'
 import type { Slide } from '~/types'
@@ -243,9 +243,24 @@ export default function SlideSection({ slide }: { slide?: Slide }) {
         </div>
 
         {/* SUBMIT */}
-        <button type="submit" disabled={form.processing}>
-          {form.processing ? 'Sauvegarde...' : slide ? 'Mettre à jour' : 'Créer'}
-        </button>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button type="submit" disabled={form.processing} style={{ flex: 1 }}>
+            {form.processing ? 'Sauvegarde...' : slide ? 'Mettre à jour' : 'Créer'}
+          </button>
+          {slide && (
+            <button
+              type="button"
+              onClick={() => {
+                if (confirm('Supprimer cette slide ?')) {
+                  router.delete(`/slide/${slide.id}`)
+                }
+              }}
+              style={{ width: 'auto', padding: '10px 16px', background: '#fb2c36' }}
+            >
+              Supprimer
+            </button>
+          )}
+        </div>
       </form>
     </section>
   )
