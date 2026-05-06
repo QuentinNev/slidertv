@@ -2,17 +2,27 @@ import string from '@adonisjs/core/helpers/string'
 import type { HttpContext } from '@adonisjs/core/http'
 import { updateSlideValidator } from '#validators/slide'
 import Slide from '#models/slide'
+import Tenant from '#models/tenant'
 import { convertPdfToImage } from '#services/pdf_converter'
 import fs from 'fs/promises'
 import path from 'path'
 
 export default class SlideController {
-  async show({ params, inertia }: HttpContext) {
-    const slide = await Slide.findOrFail(params.id)
+  async show({ params, inertia, auth }: HttpContext) {
+    const tenantId = auth.user!.tenantId!
+    const [slide, tenant] = await Promise.all([
+      Slide.query().where('id', params.id).where('tenantId', tenantId).first(),
+      Tenant.find(tenantId),
+    ])
+
+    if (!slide || !tenant) {
+      return inertia.render('errors/server_error', { status: 404, message: 'Slide or tenant not found' })
+    }
 
     const s = slide
 
     return inertia.render('slide/show', {
+      tenantSlug: tenant.slug,
       slide: {
         id: s.id,
         title: s.title,
@@ -27,15 +37,18 @@ export default class SlideController {
     })
   }
 
-  async updateSlide({ request, response, session }: HttpContext) {
+  async updateSlide({ request, response, session, auth }: HttpContext) {
     const { media, ...data } = await request.validateUsing(updateSlideValidator)
     const isUpdate = request.method() === 'PUT'
     const slideId = isUpdate ? request.param('id') : null
+    const tenantId = auth.user!.tenantId!
 
-    const slide = isUpdate ? await Slide.findOrFail(slideId) : new Slide()
+    const slide = isUpdate
+      ? await Slide.query().where('id', slideId).where('tenantId', tenantId).firstOrFail()
+      : new Slide()
 
     if (!isUpdate) {
-      slide.fill(data)
+      slide.fill({ ...data, tenantId })
     } else {
       slide.merge(data)
     }

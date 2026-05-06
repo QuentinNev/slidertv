@@ -18,24 +18,6 @@ const routes = {
     tokens: [{"old":"/","type":0,"val":"/","end":""}],
     types: placeholder as Registry['home']['types'],
   },
-  'events': {
-    methods: ["GET","HEAD"],
-    pattern: '/events',
-    tokens: [{"old":"/events","type":0,"val":"events","end":""}],
-    types: placeholder as Registry['events']['types'],
-  },
-  'new_account.create': {
-    methods: ["GET","HEAD"],
-    pattern: '/signup',
-    tokens: [{"old":"/signup","type":0,"val":"signup","end":""}],
-    types: placeholder as Registry['new_account.create']['types'],
-  },
-  'new_account.store': {
-    methods: ["POST"],
-    pattern: '/signup',
-    tokens: [{"old":"/signup","type":0,"val":"signup","end":""}],
-    types: placeholder as Registry['new_account.store']['types'],
-  },
   'session.create': {
     methods: ["GET","HEAD"],
     pattern: '/login',
@@ -53,6 +35,24 @@ const routes = {
     pattern: '/logout',
     tokens: [{"old":"/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['session.destroy']['types'],
+  },
+  'admin': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin',
+    tokens: [{"old":"/admin","type":0,"val":"admin","end":""}],
+    types: placeholder as Registry['admin']['types'],
+  },
+  'admin.tenants.store': {
+    methods: ["POST"],
+    pattern: '/admin/tenants',
+    tokens: [{"old":"/admin/tenants","type":0,"val":"admin","end":""},{"old":"/admin/tenants","type":0,"val":"tenants","end":""}],
+    types: placeholder as Registry['admin.tenants.store']['types'],
+  },
+  'admin.tenants.destroy': {
+    methods: ["DELETE"],
+    pattern: '/admin/tenants/:id',
+    tokens: [{"old":"/admin/tenants/:id","type":0,"val":"admin","end":""},{"old":"/admin/tenants/:id","type":0,"val":"tenants","end":""},{"old":"/admin/tenants/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['admin.tenants.destroy']['types'],
   },
   'dashboard': {
     methods: ["GET","HEAD"],
@@ -89,6 +89,24 @@ const routes = {
     pattern: '/slide/:id',
     tokens: [{"old":"/slide/:id","type":0,"val":"slide","end":""},{"old":"/slide/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['slide.update']['types'],
+  },
+  'events': {
+    methods: ["GET","HEAD"],
+    pattern: '/events',
+    tokens: [{"old":"/events","type":0,"val":"events","end":""}],
+    types: placeholder as Registry['events']['types'],
+  },
+  'tenant.home': {
+    methods: ["GET","HEAD"],
+    pattern: '/:slug',
+    tokens: [{"old":"/:slug","type":1,"val":"slug","end":""}],
+    types: placeholder as Registry['tenant.home']['types'],
+  },
+  'tenant.events': {
+    methods: ["GET","HEAD"],
+    pattern: '/:slug/events',
+    tokens: [{"old":"/:slug/events","type":1,"val":"slug","end":""},{"old":"/:slug/events","type":0,"val":"events","end":""}],
+    types: placeholder as Registry['tenant.events']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

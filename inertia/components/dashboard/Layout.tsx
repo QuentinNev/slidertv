@@ -17,6 +17,7 @@ export default function Layout({
   onSlideSelect,
   onCreateSlide,
   selectedSlideId,
+  tenantSlug,
 }: {
   children: ReactNode
   section: DashboardSection
@@ -25,6 +26,7 @@ export default function Layout({
   onSlideSelect?: (slide: Slide) => void
   onCreateSlide?: () => void
   selectedSlideId?: number
+  tenantSlug?: string
 }) {
   const { props } = usePage<Data.SharedProps>()
   const user = props.user
@@ -42,9 +44,11 @@ export default function Layout({
       <header className="db-header">
         <h1>Dashboard</h1>
         <div className="db-header-right">
-          <a href="/" className="db-link">
-            ← Retour à l'écran TV
-          </a>
+          {tenantSlug && (
+            <a href={`/${tenantSlug}`} className="db-link">
+              ← Retour à l'écran TV
+            </a>
+          )}
           {user && (
             <div className="db-user">
               <span className="db-user-name">{user.fullName ?? user.email}</span>

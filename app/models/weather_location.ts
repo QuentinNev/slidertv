@@ -1,3 +1,9 @@
 import { WeatherLocationSchema } from '#database/schema'
+import { belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Tenant from '#models/tenant'
 
-export default class WeatherLocation extends WeatherLocationSchema {}
+export default class WeatherLocation extends WeatherLocationSchema {
+  @belongsTo(() => Tenant)
+  declare tenant: BelongsTo<typeof Tenant>
+}

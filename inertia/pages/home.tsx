@@ -18,12 +18,14 @@ interface Colors {
 }
 
 export default function Home({
+  slug,
   weather,
   location,
   news,
   colors,
   slides = [],
 }: {
+  slug: string
   weather: WeatherData | null
   location: Location | null
   news: NewsItem[]
@@ -31,10 +33,10 @@ export default function Home({
   slides?: Slide[]
 }) {
   useEffect(() => {
-    const es = new EventSource('/events')
+    const es = new EventSource(`/${slug}/events`)
     es.onmessage = () => router.reload({ only: ['colors', 'location', 'weather', 'news', 'slides'] })
     return () => es.close()
-  }, [])
+  }, [slug])
 
   const style = {
     '--tv-bg': colors?.$attributes.backgroundColor ?? '#0d0d14',

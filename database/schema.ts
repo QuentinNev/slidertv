@@ -8,7 +8,7 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AppSettingSchema extends BaseModel {
-  static $columns = ['accentColor', 'backgroundColor', 'createdAt', 'id', 'updatedAt'] as const
+  static $columns = ['accentColor', 'backgroundColor', 'createdAt', 'id', 'tenantId', 'updatedAt'] as const
   $columns = AppSettingSchema.$columns
   @column()
   declare accentColor: string | null
@@ -18,12 +18,14 @@ export class AppSettingSchema extends BaseModel {
   declare createdAt: DateTime
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare tenantId: number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
 
 export class SlideSchema extends BaseModel {
-  static $columns = ['content', 'createdAt', 'duration', 'id', 'isActive', 'media', 'mediaName', 'mediaType', 'order', 'title', 'updatedAt'] as const
+  static $columns = ['content', 'createdAt', 'duration', 'id', 'isActive', 'media', 'mediaName', 'mediaType', 'order', 'tenantId', 'title', 'updatedAt'] as const
   $columns = SlideSchema.$columns
   @column()
   declare content: string
@@ -44,13 +46,30 @@ export class SlideSchema extends BaseModel {
   @column()
   declare order: number
   @column()
+  declare tenantId: number | null
+  @column()
   declare title: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
 
+export class TenantSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'slug', 'updatedAt'] as const
+  $columns = TenantSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'role', 'tenantId', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -62,12 +81,16 @@ export class UserSchema extends BaseModel {
   declare id: number
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare role: string
+  @column()
+  declare tenantId: number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
 
 export class WeatherLocationSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'latitude', 'longitude', 'name', 'updatedAt'] as const
+  static $columns = ['createdAt', 'id', 'latitude', 'longitude', 'name', 'tenantId', 'updatedAt'] as const
   $columns = WeatherLocationSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -79,6 +102,8 @@ export class WeatherLocationSchema extends BaseModel {
   declare longitude: number
   @column()
   declare name: string
+  @column()
+  declare tenantId: number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

@@ -1,37 +1,40 @@
 import { Form } from '@adonisjs/inertia/react'
+import { usePage } from '@inertiajs/react'
+import type { Data } from '@generated/data'
 
 export default function Login() {
+  const { props } = usePage<Data.SharedProps>()
+
   return (
     <div className="form-container">
       <div>
-        <h1> Connexion </h1>
+        <h1>Connexion</h1>
       </div>
 
       <div>
-        <Form route="session.store">
-          {({ errors }) => (
+        <Form action="/login" method="POST">
+          {() => (
             <>
               <div>
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
-                  name="email"
                   id="email"
+                  name="email"
                   autoComplete="username"
-                  data-invalid={errors.email ? 'true' : undefined}
+                  required
                 />
-                {errors.email && <div>{errors.email}</div>}
               </div>
 
               <div>
                 <label htmlFor="password">Mot de passe</label>
                 <input
                   type="password"
-                  name="password"
                   id="password"
+                  name="password"
                   autoComplete="current-password"
+                  required
                 />
-                {errors.password ? <span>{errors.password}</span> : ''}
               </div>
 
               <div>
@@ -42,6 +45,12 @@ export default function Login() {
             </>
           )}
         </Form>
+
+        {props.flash?.error && (
+          <div style={{ color: '#fb2c36', fontSize: '14px', marginTop: '16px' }}>
+            {props.flash.error}
+          </div>
+        )}
       </div>
     </div>
   )

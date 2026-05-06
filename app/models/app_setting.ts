@@ -1,21 +1,9 @@
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { AppSettingSchema } from '#database/schema'
+import { belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Tenant from '#models/tenant'
 
-export default class AppSetting extends BaseModel {
-  static table = 'app_settings'
-
-  @column({ isPrimary: true })
-  declare id: number
-
-  @column()
-  declare backgroundColor: string | null
-
-  @column()
-  declare accentColor: string | null
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
+export default class AppSetting extends AppSettingSchema {
+  @belongsTo(() => Tenant)
+  declare tenant: BelongsTo<typeof Tenant>
 }

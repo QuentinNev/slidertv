@@ -9,10 +9,12 @@ export default function Dashboard({
   location,
   colors,
   slides = [],
+  tenantSlug,
 }: {
   location?: Location
   colors?: Colors
   slides?: Slide[]
+  tenantSlug: string
 }) {
   const [section, setSection] = useState<DashboardSection>('colors')
   const [selectedSlide, setSelectedSlide] = useState<Slide | null>(null)
@@ -35,6 +37,7 @@ export default function Dashboard({
       onSlideSelect={handleSlideSelect}
       onCreateSlide={handleCreateSlide}
       selectedSlideId={selectedSlide?.id}
+      tenantSlug={tenantSlug}
     >
       {section === 'colors' && <ColorSection colors={colors} />}
       {section === 'meteo' && <MeteoSection location={location} />}
