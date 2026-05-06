@@ -83,13 +83,18 @@ export default function SortableSlideList({
     const oldIndex = items.findIndex((s) => s.id === active.id)
     const newIndex = items.findIndex((s) => s.id === over.id)
     const reordered = arrayMove(items, oldIndex, newIndex)
+    const previous = items
 
     setItems(reordered)
 
     router.patch(
       '/slides/reorder',
       { orders: reordered.map((s, i) => ({ id: s.id, order: i })) },
-      { only: ['slides'], preserveState: true }
+      {
+        only: ['slides'],
+        preserveState: true,
+        onError: () => setItems(previous),
+      }
     )
   }
 
